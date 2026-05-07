@@ -1,0 +1,9 @@
+path: .
+train: id_dataset/images/train
+val: id_dataset/images/val
+
+names:
+  0: id_card
+  1: cin_field
+  2: name_field
+  3: date_field

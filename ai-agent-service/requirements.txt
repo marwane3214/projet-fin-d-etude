@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+transformers
+easyocr
+Pillow
+pydantic
+python-multipart
+SQLAlchemy
+psycopg2-binary
+scikit-learn
+pypdf
+sentence-transformers
+SpeechRecognition
+gTTS

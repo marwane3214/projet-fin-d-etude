@@ -1,0 +1,32 @@
+# .dockerignore
+# This prevents Docker from copying useless trash into its virtual disk during builds.
+
+# Java/Maven junk
+target/
+*.jar
+*.war
+.mvn/
+.classpath
+.project
+.settings/
+
+# Node.js junk (frontend/ai)
+**/node_modules/
+**/dist/
+**/build/
+.npm/
+
+# IDE junk
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Git junk
+.git/
+.gitignore
+
+# Docker junk (ironically)
+docker-compose.override.yml
+*.ps1
+.dockerignore

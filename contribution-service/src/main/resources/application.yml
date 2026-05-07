@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: contribution-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/cimr_contributions}
+    username: ${SPRING_DATASOURCE_USERNAME:cimr}
+    password: ${SPRING_DATASOURCE_PASSWORD:cimr_secret_2024}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+server:
+  port: 8082

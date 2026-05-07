@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: saga-orchestrator
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: saga-group
+      auto-offset-reset: earliest
+
+server:
+  port: 8087
