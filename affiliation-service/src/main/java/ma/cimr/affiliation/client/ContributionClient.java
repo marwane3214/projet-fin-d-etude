@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@FeignClient(name = "contribution-service", url = "${application.config.contribution-url:http://contribution-service:8080/api/contributions}")
+@FeignClient(name = "contribution-service", url = "${application.config.contribution-url:http://contribution-service:8082/api/contributions}")
 public interface ContributionClient {
 
     @GetMapping("/history/{affilieId}")

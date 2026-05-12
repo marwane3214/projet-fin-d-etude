@@ -6,6 +6,7 @@ import {
   Filter, FileText, Download, Paperclip, Building2, AlertTriangle
 } from 'lucide-react';
 import { liquidationApi } from '../../api/liquidations';
+import { API_BASE_URL } from '../../api/client';
 import { useAuth } from '../../contexts/AuthContext';
 import type { DemandeLiquidation, StatutDossier } from '../../types';
 import toast from 'react-hot-toast';
@@ -552,7 +553,7 @@ export default function LiquidationListPage() {
                         className="action-btn action-view"
                         title="Aperçu"
                         onClick={() => {
-                          const url = `http://localhost:8080/api/liquidations/documents/${doc.id}`;
+                          const url = `${API_BASE_URL}/api/liquidations/documents/${doc.id}`;
                           setPreviewDoc({ url, name: doc.nomFichier });
                         }}
                       >

@@ -27,6 +27,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+async def startup_event():
+    # Start loading models in the background
+    threading.Thread(target=load_model_background).start()
+    # Load knowledge dataset
+    load_knowledge_dataset(build_index=True)
+
 # Initialize EasyOCR reader (local OCR model)
 try:
     reader = easyocr.Reader(['en', 'fr'])

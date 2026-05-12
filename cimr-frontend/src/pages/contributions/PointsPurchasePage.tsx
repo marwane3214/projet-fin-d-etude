@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Upload, CheckCircle, XCircle, Search, FileText, Info } from 'lucide-react';
 import { contributionApi } from '../../api/contributions';
+import { API_BASE_URL } from '../../api/client';
 import { useAuth } from '../../contexts/AuthContext';
 import type { PointsPurchase } from '../../types';
 import toast from 'react-hot-toast';
@@ -125,11 +126,8 @@ export default function PointsPurchasePage() {
   );
   
   const handleViewProof = (path: string) => {
-    // Si la gateway (8080) bloque, on tente l'accès direct (8082)
-    // Note: Cela nécessite que le port 8082 soit exposé sur l'hôte
-    const backendUrl = 'http://localhost:8082';
     const fileName = path.split(/[\\/]/).pop() || '';
-    setProofUrl(`${backendUrl}/api/contributions/files/${encodeURIComponent(fileName)}`);
+    setProofUrl(`${API_BASE_URL}/api/contributions/files/${encodeURIComponent(fileName)}`);
     setShowProofModal(true);
   };
 

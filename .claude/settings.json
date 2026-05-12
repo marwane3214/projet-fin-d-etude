@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://127.0.0.1:8000/api/ai/status)",
+      "Bash(curl -s --max-time * http://127.0.0.1:8000/api/ai/status)",
+      "Bash(until curl -s http://127.0.0.1:8000/api/ai/status *)",
+      "Bash(docker exec cimr-postgres psql -U cimr -d * -c \"SELECT*\")",
+      "Bash(docker exec cimr-postgres psql -U cimr -d * -c \"\\*\")"
+    ]
+  }
+}

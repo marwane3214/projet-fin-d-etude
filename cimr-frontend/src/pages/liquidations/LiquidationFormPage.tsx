@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -33,6 +33,14 @@ export default function LiquidationFormPage() {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [observations, setObservations] = useState('');
   const [consentPhysical, setConsentPhysical] = useState(false);
+
+  // Revoke all object URLs on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      uploadedFiles.forEach(f => { if (f.preview) URL.revokeObjectURL(f.preview); });
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Check if already submitted (persisted in localStorage)
   const storageKey = `cimr_liquidation_submitted_${user?.username}`;

@@ -94,7 +94,8 @@ export default function PaymentListPage() {
 
   useEffect(() => {
     loadData();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAdmin, user?.username]);
 
   const handleCreateAllocation = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -69,6 +69,7 @@ public class AffiliationService {
                 .username(request.getUsername())
                 .password(request.getPassword())
                 .email(affilie.getEmail())
+                .cin(affilie.getCin())
                 .build();
         
         try {

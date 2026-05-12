@@ -87,12 +87,12 @@ public class Affilie {
     @JoinColumn(name = "adherent_id")
     private Adherent adherent;
 
-    @OneToMany(mappedBy = "affilie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "affilie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<BulletinAffiliation> bulletins;
 
-    @OneToMany(mappedBy = "affilie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "affilie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Justificatif> justificatifs;

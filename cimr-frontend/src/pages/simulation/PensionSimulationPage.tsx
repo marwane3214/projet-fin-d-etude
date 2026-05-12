@@ -65,14 +65,8 @@ export default function PensionSimulationPage() {
           careerPeriods: [defaultCareer]
         }));
       }).catch(err => {
-        const status = err?.response?.status;
-        if (status === 500 || status === 404) {
-          // Stale session — affiliate UUID no longer exists in DB
-          toast.error('Session expirée. Reconnexion nécessaire.', { id: 'affiliate-stale' });
-          localStorage.removeItem('cimr_token');
-          localStorage.removeItem('cimr_user');
-          window.location.href = '/login';
-        }
+        console.error("Erreur lors de la récupération des données de l'affilié:", err);
+        toast.error('Impossible de récupérer vos données d\'affiliation pour la simulation.');
       });
     }
   }, [user]);

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+const AI_API_URL = import.meta.env.VITE_AI_API_URL || 'http://127.0.0.1:8000';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -23,7 +25,6 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Password Recovery State
   const [showRecoveryModal, setShowRecoveryModal] = useState(false);
   const [recoveryUsername, setRecoveryUsername] = useState('');
   const [recoveryFile, setRecoveryFile] = useState<File | null>(null);
@@ -46,8 +47,8 @@ export default function LoginPage() {
       toast.success('Connexion réussie !');
       navigate('/dashboard');
     } catch (err: any) {
-      const message = err?.response?.data?.error 
-        || err?.response?.data?.message 
+      const message = err?.response?.data?.error
+        || err?.response?.data?.message
         || (err?.response?.status === 401 ? 'Identifiants incorrects' : null)
         || (err?.code === 'ERR_NETWORK' ? 'Service indisponible, veuillez réessayer' : null)
         || 'Erreur de connexion, veuillez réessayer';
@@ -63,21 +64,21 @@ export default function LoginPage() {
       return;
     }
     setRecoveryLoading(true);
-    
+
     const formData = new FormData();
     formData.append('file', recoveryFile);
     formData.append('username', recoveryUsername);
-    
+
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/ai/verify-id', {
+      const response = await fetch(`${AI_API_URL}/api/ai/verify-id`, {
         method: 'POST',
         body: formData
       });
-      
+
       const data = await response.json();
       if (data.status === 'success') {
         const cin = data.extracted.cin !== "Non détecté" ? data.extracted.cin : "CIN INCONNU";
-        
+
         setRecoveryResult({
           cin: cin,
           name: data.extracted.full_name !== "Not Found" ? data.extracted.full_name : "Inconnu",
@@ -94,6 +95,7 @@ export default function LoginPage() {
       setRecoveryLoading(false);
     }
   };
+
   const handlePasswordReset = async () => {
     if (!newPassword || newPassword !== confirmPassword) {
       toast.error("Les mots de passe ne correspondent pas.");
@@ -101,7 +103,7 @@ export default function LoginPage() {
     }
     setResetLoading(true);
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/ai/reset-password', {
+      const response = await fetch(`${AI_API_URL}/api/ai/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -135,7 +137,6 @@ export default function LoginPage() {
 
   return (
     <div className="login-page">
-      {/* Background shapes */}
       <div className="login-bg-shape login-bg-shape-1" />
       <div className="login-bg-shape login-bg-shape-2" />
       <div className="login-bg-shape login-bg-shape-3" />
@@ -315,9 +316,9 @@ export default function LoginPage() {
                     <button className="btn btn-ghost" onClick={resetRecovery} disabled={recoveryLoading}>
                       Annuler
                     </button>
-                    <button 
-                      className="btn btn-primary" 
-                      onClick={handleIDUpload} 
+                    <button
+                      className="btn btn-primary"
+                      onClick={handleIDUpload}
                       disabled={!recoveryFile || !recoveryUsername.trim() || recoveryLoading}
                     >
                       {recoveryLoading ? <><Loader2 size={18} className="spin" /> Analyse...</> : "Valider l'identité"}
@@ -339,7 +340,7 @@ export default function LoginPage() {
                       <>
                         <Key size={48} color="var(--brand)" style={{ margin: '0 auto 1rem' }} />
                         <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>Définir un nouveau mot de passe</h3>
-                        
+
                         {recoveryResult.verified ? (
                           <form onSubmit={(e) => { e.preventDefault(); handlePasswordReset(); }} style={{ textAlign: 'left', marginTop: '1rem' }}>
                             <div style={{ background: '#ecfdf5', color: '#059669', padding: '0.75rem', borderRadius: 'var(--radius-sm)', marginBottom: '1.5rem', textAlign: 'center', fontWeight: 'bold' }}>
@@ -353,9 +354,9 @@ export default function LoginPage() {
                               <label style={{ fontSize: '0.8rem' }}>Nouveau mot de passe</label>
                               <div className="input-wrapper">
                                 <Shield size={16} className="input-icon" />
-                                <input 
-                                  type="password" 
-                                  placeholder="••••••••" 
+                                <input
+                                  type="password"
+                                  placeholder="••••••••"
                                   value={newPassword}
                                   onChange={(e) => setNewPassword(e.target.value)}
                                   autoComplete="new-password"
@@ -367,9 +368,9 @@ export default function LoginPage() {
                               <label style={{ fontSize: '0.8rem' }}>Confirmer le mot de passe</label>
                               <div className="input-wrapper">
                                 <Shield size={16} className="input-icon" />
-                                <input 
-                                  type="password" 
-                                  placeholder="••••••••" 
+                                <input
+                                  type="password"
+                                  placeholder="••••••••"
                                   value={confirmPassword}
                                   onChange={(e) => setConfirmPassword(e.target.value)}
                                   autoComplete="new-password"
@@ -377,9 +378,9 @@ export default function LoginPage() {
                               </div>
                             </div>
 
-                            <button 
+                            <button
                               type="submit"
-                              className="btn btn-primary" 
+                              className="btn btn-primary"
                               style={{ width: '100%' }}
                               disabled={resetLoading || !newPassword || newPassword !== confirmPassword}
                             >
@@ -399,7 +400,7 @@ export default function LoginPage() {
                       </>
                     )}
                   </div>
-                  
+
                   <button className="btn btn-ghost" onClick={resetRecovery} style={{ width: '100%', marginTop: '0.5rem' }}>
                     {resetSuccess ? "Retour à la connexion" : "Annuler"}
                   </button>

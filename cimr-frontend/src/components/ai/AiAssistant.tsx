@@ -3,6 +3,8 @@ import { Mic, Send, X, Bot, User, Loader2, Volume2, VolumeX } from 'lucide-react
 import { v4 as uuidv4 } from 'uuid';
 import './AiAssistant.css';
 
+const AI_API_URL = import.meta.env.VITE_AI_API_URL || 'http://127.0.0.1:8000';
+
 interface Message {
   id: string;
   type: 'user' | 'ai' | 'error';
@@ -107,7 +109,7 @@ export default function AiAssistant() {
     setIsTyping(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/ai/chat', {
+      const response = await fetch(`${AI_API_URL}/api/ai/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: text, session_id: sessionId })
@@ -151,7 +153,7 @@ export default function AiAssistant() {
     formData.append('file', file);
  
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/ai/verify-id', {
+      const response = await fetch(`${AI_API_URL}/api/ai/verify-id`, {
         method: 'POST',
         body: formData
       });

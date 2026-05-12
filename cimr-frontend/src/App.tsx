@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 import AppLayout from './components/layout/AppLayout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
@@ -10,7 +11,6 @@ import AffilieFormPage from './pages/affilies/AffilieFormPage';
 import ContributionListPage from './pages/contributions/ContributionListPage';
 import LiquidationListPage from './pages/liquidations/LiquidationListPage';
 import LiquidationFormPage from './pages/liquidations/LiquidationFormPage';
-import NotificationPage from './pages/notifications/NotificationPage';
 import PaymentListPage from './pages/payments/PaymentListPage';
 import ReversionListPage from './pages/reversions/ReversionListPage';
 import AuditLogPage from './pages/admin/AuditLogPage';
@@ -47,13 +47,12 @@ function AppRoutes() {
         <Route path="simulation" element={<PensionSimulationPage />} />
         <Route path="liquidations" element={<LiquidationListPage />} />
         <Route path="liquidations/new" element={<LiquidationFormPage />} />
-        <Route path="notifications" element={<NotificationPage />} />
+        <Route path="notifications" element={<NotificationsPage />} />
         <Route path="payments" element={<PaymentListPage />} />
         <Route path="reversions" element={<ReversionListPage />} />
         <Route path="admin/audit" element={<AuditLogPage />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="settings" element={<SettingsPage />} />
-        <Route path="notifications" element={<NotificationsPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
@@ -64,6 +63,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <NotificationProvider>
         <AppRoutes />
         <Toaster
           position="top-right"
@@ -72,6 +72,7 @@ export default function App() {
             style: { background: '#1e293b', color: '#f1f5f9', borderRadius: '12px', fontSize: '0.9rem' },
           }}
         />
+        </NotificationProvider>
       </AuthProvider>
     </BrowserRouter>
   );

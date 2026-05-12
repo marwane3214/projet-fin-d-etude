@@ -14,10 +14,8 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-  data:
-    redis:
-      host: ${SPRING_DATA_REDIS_HOST:localhost}
-      port: 6379
+      properties:
+        "[spring.json.add.type.headers]": false
 
 server:
   port: 8083

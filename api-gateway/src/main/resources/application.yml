@@ -35,6 +35,14 @@ spring:
           uri: ${PAYMENT_SERVICE_URL:http://localhost:8084}
           predicates:
             - Path=/api/payments/**
+        - id: reversion-service
+          uri: ${REVERSION_SERVICE_URL:http://localhost:8085}
+          predicates:
+            - Path=/api/reversions/**
+        - id: admin-service
+          uri: ${ADMIN_SERVICE_URL:http://localhost:8086}
+          predicates:
+            - Path=/api/admin/**
 
 server:
   port: 8080

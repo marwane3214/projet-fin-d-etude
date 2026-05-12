@@ -6,8 +6,9 @@ import {
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import AiAssistant from '../ai/AiAssistant';
+import Breadcrumb from './Breadcrumb';
 import logoImage from '../../assets/image.png';
-import { notificationApi } from '../../api/notifications';
+import { useNotifications } from '../../contexts/NotificationContext';
 
 const navItems = [
   { path: '/dashboard', label: 'Tableau de bord', icon: LayoutDashboard, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
@@ -21,11 +22,11 @@ const navItems = [
 
 export default function AppLayout() {
   const { user, logout, isAdmin } = useAuth();
+  const { unreadCount } = useNotifications();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(0);
   const profileRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = () => {
@@ -33,21 +34,6 @@ export default function AppLayout() {
     navigate('/login');
   };
 
-  useEffect(() => {
-    if (user?.username) {
-      loadUnreadCount();
-      // Refresh every 30 seconds
-      const interval = setInterval(loadUnreadCount, 30000);
-      return () => clearInterval(interval);
-    }
-  }, [user]);
-
-  const loadUnreadCount = async () => {
-    // Note: Admin service (notifications) has been decommissioned as requested
-    setUnreadCount(0);
-  };
-
-  // Close dropdown on outside click
   useEffect(() => {
     if (!profileOpen) return;
     const handleClick = (e: MouseEvent) => {
@@ -70,14 +56,13 @@ export default function AppLayout() {
 
   return (
     <div className={`app-layout ${sidebarOpen ? '' : 'sidebar-collapsed'} ${mobileMenuOpen ? 'sidebar-mobile-open' : ''}`}>
-      {/* Sidebar Overlay for mobile */}
       {mobileMenuOpen && <div className="modal-overlay" style={{ zIndex: 95 }} onClick={() => setMobileMenuOpen(false)} />}
 
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-header">
           <div className="sidebar-logo">
-            <img src={logoImage} alt="Portail CIMR" style={{ width: 34, height: 34, objectFit: 'contain' }} />
+            <img src={logoImage} alt="Portail CIMR" style={{ width: 24, height: 24, objectFit: 'contain' }} />
             {sidebarOpen && <span className="sidebar-logo-text">Portail CIMR</span>}
           </div>
           <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
@@ -86,20 +71,27 @@ export default function AppLayout() {
         </div>
 
         <nav className="sidebar-nav">
+          {sidebarOpen && <div className="sidebar-section-label">Navigation</div>}
           {filteredNav.map(item => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
               onClick={() => setMobileMenuOpen(false)}
+              title={!sidebarOpen ? item.label : undefined}
             >
-              <item.icon size={22} />
+              <item.icon size={16} />
               {sidebarOpen && <span>{item.label}</span>}
             </NavLink>
           ))}
 
-          <button className="sidebar-link logout" onClick={handleLogout}>
-            <LogOut size={22} />
+          <div style={{ flex: 1 }} />
+          <button
+            className="sidebar-link logout"
+            onClick={handleLogout}
+            title={!sidebarOpen ? 'Déconnexion' : undefined}
+          >
+            <LogOut size={16} />
             {sidebarOpen && <span>Déconnexion</span>}
           </button>
         </nav>
@@ -107,20 +99,19 @@ export default function AppLayout() {
 
       {/* Main content */}
       <div className="main-wrapper">
-        {/* Top bar */}
         <header className="topbar">
           <div className="topbar-left">
             <button className="btn btn-ghost btn-sm mobile-only" style={{ display: 'none' }} onClick={() => setMobileMenuOpen(true)}>
-              <Menu size={24} />
+              <Menu size={20} />
             </button>
             <div className="topbar-search hide-mobile">
-              <Search size={18} />
+              <Search size={15} />
               <input type="text" placeholder="Rechercher dossiers, affiliés..." />
             </div>
           </div>
           <div className="topbar-right">
             <button className="topbar-notification" onClick={() => navigate('/notifications')}>
-              <Bell size={22} />
+              <Bell size={18} />
               {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
             </button>
             <div
@@ -159,7 +150,7 @@ export default function AppLayout() {
           </div>
         </header>
 
-        {/* Page content */}
+        <Breadcrumb />
         <main className="page-content">
           <Outlet />
         </main>
