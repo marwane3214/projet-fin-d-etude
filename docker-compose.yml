@@ -54,6 +54,12 @@ services:
       - SPRING_DATASOURCE_PASSWORD=cimr_secret_2024
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - JAVA_OPTS=-Xmx512m -Xms256m -XX:+UseG1GC
+      - MAIL_ENABLED=${MAIL_ENABLED:-false}
+      - MAIL_HOST=${MAIL_HOST:-smtp.gmail.com}
+      - MAIL_PORT=${MAIL_PORT:-587}
+      - MAIL_USERNAME=${MAIL_USERNAME:-}
+      - MAIL_PASSWORD=${MAIL_PASSWORD:-}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:5173}
     depends_on: [ postgres, kafka ]
     networks: [ cimr-network ]
 
@@ -101,7 +107,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - JAVA_OPTS=-Xmx512m -Xms256m -XX:+UseG1GC
     volumes:
-      - ./contribution-service/uploads:/app/uploads
+      - ./backend/contribution-service/uploads:/app/uploads
     depends_on: [ postgres, kafka ]
     ports:
       - "8082:8082"
@@ -120,7 +126,7 @@ services:
       - SPRING_KAFKA_PRODUCER_PROPERTIES_SPRING_JSON_ADD_TYPE_HEADERS=false
       - JAVA_OPTS=-Xmx512m -Xms256m -XX:+UseG1GC
     volumes:
-      - ./liquidation-service/uploads:/app/uploads
+      - ./backend/liquidation-service/uploads:/app/uploads
     depends_on: [ postgres, kafka ]
     networks: [ cimr-network ]
 
@@ -167,6 +173,12 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER=org.apache.kafka.common.serialization.StringDeserializer
       - JAVA_OPTS=-Xmx512m -Xms256m -XX:+UseG1GC
+      - MAIL_ENABLED=${MAIL_ENABLED:-false}
+      - MAIL_HOST=${MAIL_HOST:-smtp.gmail.com}
+      - MAIL_PORT=${MAIL_PORT:-587}
+      - MAIL_USERNAME=${MAIL_USERNAME:-}
+      - MAIL_PASSWORD=${MAIL_PASSWORD:-}
+      - MAIL_ADMIN_EMAIL=${MAIL_ADMIN_EMAIL:-support@cimr.ma}
     depends_on: [ postgres, kafka ]
     ports: [ "8086:8086" ]
     networks: [ cimr-network ]

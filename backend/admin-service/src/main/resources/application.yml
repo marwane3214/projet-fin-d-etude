@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: admin-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/cimr_admin}
+    username: ${SPRING_DATASOURCE_USERNAME:cimr}
+    password: ${SPRING_DATASOURCE_PASSWORD:cimr_secret_2024}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: admin-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+app:
+  mail:
+    admin-email: ${MAIL_ADMIN_EMAIL:support@cimr.ma}
+    enabled: ${MAIL_ENABLED:false}
+
+server:
+  port: 8086
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

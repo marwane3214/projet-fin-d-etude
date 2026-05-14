@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:5173"
+              - "http://localhost:5174"
+              - "http://localhost:5175"
+              - "http://localhost:3000"
+              - "http://localhost:4173"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+      routes:
+        - id: auth-service
+          uri: ${AUTH_SERVICE_URL:http://localhost:8079}
+          predicates:
+            - Path=/api/auth/**
+        - id: affiliation-service
+          uri: ${AFFILIATION_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/affilies/**, /api/documents/**
+        - id: contribution-service
+          uri: ${CONTRIBUTION_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/contributions/**
+        - id: liquidation-service
+          uri: ${LIQUIDATION_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/liquidations/**
+        - id: payment-service
+          uri: ${PAYMENT_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/api/payments/**
+        - id: reversion-service
+          uri: ${REVERSION_SERVICE_URL:http://localhost:8085}
+          predicates:
+            - Path=/api/reversions/**
+        - id: admin-service
+          uri: ${ADMIN_SERVICE_URL:http://localhost:8086}
+          predicates:
+            - Path=/api/admin/**
+
+server:
+  port: 8080

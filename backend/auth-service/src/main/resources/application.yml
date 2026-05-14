@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/cimr_auth}
+    username: ${SPRING_DATASOURCE_USERNAME:cimr}
+    password: ${SPRING_DATASOURCE_PASSWORD:cimr_secret_2024}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: auth-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.type.mapping: "ma.cimr.affiliation.event.AffilieEvent:ma.cimr.auth.event.AffilieEvent"
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+jwt:
+  secret: ${JWT_SECRET:cimr-jwt-secret-key-2024-very-secure-minimum-256-bits-long}
+
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
+  mail:
+    enabled: ${MAIL_ENABLED:false}
+    from: ${MAIL_USERNAME:noreply@cimr.ma}
+
+server:
+  port: 8079
