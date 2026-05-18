@@ -203,7 +203,7 @@ export default function AuditLogPage() {
                       {new Date(log.dateAction).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--text-primary)', margin: '0.25rem 0', lineHeight: 1.4 }}>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text)', margin: '0.25rem 0', lineHeight: 1.4 }}>
                     {log.details || 'Aucun détail'}
                   </p>
                   <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
@@ -267,7 +267,7 @@ export default function AuditLogPage() {
                 <span className="detail-label">Détails</span>
                 <div style={{
                   background: 'var(--bg-input)', padding: '1rem', borderRadius: 'var(--radius-sm)',
-                  fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text-primary)', marginTop: '0.25rem',
+                  fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text)', marginTop: '0.25rem',
                 }}>
                   {selectedLog.details || 'Aucun détail supplémentaire'}
                 </div>

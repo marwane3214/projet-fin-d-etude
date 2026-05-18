@@ -11,7 +11,7 @@ import { supportApi } from '../../api/support';
 import type { SupportTicket } from '../../api/support';
 import { authApi } from '../../api/auth';
 import toast from 'react-hot-toast';
-import type { Contribution, DemandeLiquidation } from '../../types';
+import type { Contribution, DemandeLiquidation, Affilie, Paiement } from '../../types';
 
 export default function DashboardPage() {
   const { isAdmin, user } = useAuth();
@@ -135,8 +135,7 @@ function AdminDashboard() {
       ]);
 
       // Affiliés actifs
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const affiliesActifs = affilies.filter((a: any) => a.status === 'ACTIVE').length;
+      const affiliesActifs = affilies.filter((a: Affilie) => a.status === 'ACTIVE').length;
 
       // Cotisations du mois en cours
       const now = new Date();
@@ -159,12 +158,10 @@ function AdminDashboard() {
       ).length;
 
       // Paiements planifiés
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const paiementsPlanifies = paiements.filter((p: any) => p.statut === 'PLANIFIE').length;
+      const paiementsPlanifies = paiements.filter((p: Paiement) => p.statut === 'PLANIFIE').length;
 
       // Paiements exécutés ce mois
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const paiementsExecutesMois = paiements.filter((p: any) => {
+      const paiementsExecutesMois = paiements.filter((p: Paiement) => {
         if (p.statut !== 'EXECUTE') return false;
         const d = new Date(p.datePaiement);
         return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
@@ -177,8 +174,7 @@ function AdminDashboard() {
 
       // Récents dossiers avec noms réels
       const affilieMap = new Map<string, string>(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        affilies.map((a: any) => [a.id, `${a.nom} ${a.prenom}`] as [string, string])
+        affilies.map((a: Affilie) => [a.id, `${a.nom} ${a.prenom}`] as [string, string])
       );
 
       const recent: DossierRow[] = liquidations

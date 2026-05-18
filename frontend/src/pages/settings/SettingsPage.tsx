@@ -101,14 +101,24 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState<AppSettings>(loadSettings);
   const [saved, setSaved] = useState(false);
 
-  // Apply theme on mount (restore saved theme)
+  // Apply theme immediately whenever it changes
   useEffect(() => {
+    const root = document.documentElement;
     if (settings.theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
+      root.setAttribute('data-theme', 'dark');
+    } else if (settings.theme === 'system') {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      prefersDark ? root.setAttribute('data-theme', 'dark') : root.removeAttribute('data-theme');
     } else {
-      document.documentElement.removeAttribute('data-theme');
+      root.removeAttribute('data-theme');
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [settings.theme]);
+
+  // Apply font size immediately — set on html so rem units scale everywhere
+  useEffect(() => {
+    const sizes = { small: '13px', medium: '14px', large: '16px' };
+    document.documentElement.style.fontSize = sizes[settings.fontSize];
+  }, [settings.fontSize]);
 
   // Auto-save whenever settings change
   useEffect(() => {
@@ -125,12 +135,6 @@ export default function SettingsPage() {
     setSaved(true);
     toast.success('Paramètres sauvegardés');
 
-    // Apply theme immediately
-    if (settings.theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
   };
 
   const handleResetAll = () => {

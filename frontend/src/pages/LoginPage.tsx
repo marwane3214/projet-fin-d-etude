@@ -61,6 +61,12 @@ export default function LoginPage() {
     try {
       const user = await authApi.login(data);
       login(user);
+      // Track login activity
+      const actKey = `cimr_activity_${user.username}`;
+      const prev = JSON.parse(localStorage.getItem(actKey) || '[]');
+      localStorage.setItem(actKey, JSON.stringify(
+        [{ action: 'Connexion', date: new Date().toLocaleString('fr-FR'), ip: 'localhost', iconKey: 'Activity' }, ...prev].slice(0, 10)
+      ));
       toast.success('Connexion réussie !');
       navigate('/dashboard');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -583,7 +589,7 @@ export default function LoginPage() {
                         style={{
                           width: '100%', padding: '0.6rem 0.75rem', borderRadius: 'var(--radius-sm)',
                           border: '1.5px solid var(--border)', background: 'var(--bg-card)',
-                          color: 'var(--text-primary)', fontSize: '0.9rem',
+                          color: 'var(--text)', fontSize: '0.9rem',
                         }}
                       >
                         <option value="connexion">Problème de connexion</option>
@@ -602,7 +608,7 @@ export default function LoginPage() {
                         style={{
                           width: '100%', padding: '0.6rem 0.75rem', borderRadius: 'var(--radius-sm)',
                           border: '1.5px solid var(--border)', background: 'var(--bg-card)',
-                          color: 'var(--text-primary)', fontSize: '0.9rem', resize: 'vertical',
+                          color: 'var(--text)', fontSize: '0.9rem', resize: 'vertical',
                           fontFamily: 'inherit', boxSizing: 'border-box',
                         }}
                       />

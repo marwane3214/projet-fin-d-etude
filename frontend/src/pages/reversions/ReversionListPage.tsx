@@ -21,6 +21,7 @@ export default function ReversionListPage() {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [selectedAD, setSelectedAD] = useState<AyantDroit | null>(null);
   const [newStatut, setNewStatut] = useState('');
+  const [motifRejet, setMotifRejet] = useState('');
 
   // Form state
   const [formData, setFormData] = useState<Partial<AyantDroit>>({
@@ -62,13 +63,15 @@ export default function ReversionListPage() {
     loadData();
   }, []);
 
+  const resetFormData = () => setFormData({ affilieDecedéId: '', nom: '', prenom: '', cin: '', lienParente: 'CONJOINT', dateNaissance: '', tauxReversion: 50 });
+
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await reversionApi.create(formData);
       toast.success('Ayant-droit enregistré');
       setShowCreateModal(false);
-      setFormData({ affilieDecedéId: '', nom: '', prenom: '', cin: '', lienParente: 'CONJOINT', dateNaissance: '', tauxReversion: 50 });
+      resetFormData();
       loadData();
     } catch {
       toast.error("Erreur lors de l'enregistrement");
@@ -78,10 +81,15 @@ export default function ReversionListPage() {
   const handleStatusChange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedAD?.id) return;
+    if (newStatut === 'REJETE' && !motifRejet.trim()) {
+      toast.error('Veuillez saisir un motif de rejet');
+      return;
+    }
     try {
       await reversionApi.updateStatus(selectedAD.id, newStatut);
       toast.success('Statut mis à jour');
       setShowStatusModal(false);
+      setMotifRejet('');
       loadData();
     } catch {
       toast.error('Erreur lors de la mise à jour');
@@ -262,14 +270,28 @@ export default function ReversionListPage() {
             <form onSubmit={handleStatusChange}>
               <div className="form-group" style={{ marginBottom: '1rem' }}>
                 <label>Nouveau Statut</label>
-                <select className="form-control" value={newStatut} onChange={e => setNewStatut(e.target.value)} required>
+                <select className="form-control" value={newStatut} onChange={e => { setNewStatut(e.target.value); setMotifRejet(''); }} required>
                   <option value="EN_ATTENTE">En Attente</option>
                   <option value="APPROUVE">Approuvé</option>
                   <option value="REJETE">Rejeté</option>
                 </select>
               </div>
+              {newStatut === 'REJETE' && (
+                <div className="form-group" style={{ marginBottom: '1rem' }}>
+                  <label>Motif de rejet *</label>
+                  <textarea
+                    className="form-control"
+                    rows={3}
+                    value={motifRejet}
+                    onChange={e => setMotifRejet(e.target.value)}
+                    placeholder="Expliquer la raison du rejet..."
+                    required
+                    style={{ resize: 'vertical' }}
+                  />
+                </div>
+              )}
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '2rem' }}>
-                <button type="button" className="btn btn-ghost" onClick={() => setShowStatusModal(false)}>Annuler</button>
+                <button type="button" className="btn btn-ghost" onClick={() => { setShowStatusModal(false); setMotifRejet(''); }}>Annuler</button>
                 <button type="submit" className="btn btn-primary">Appliquer</button>
               </div>
             </form>
@@ -279,7 +301,7 @@ export default function ReversionListPage() {
 
       {/* Create Modal */}
       {showCreateModal && (
-        <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
+        <div className="modal-overlay" onClick={() => { setShowCreateModal(false); resetFormData(); }}>
           <div className="modal-content" style={{ maxWidth: '550px' }} onClick={e => e.stopPropagation()}>
             <h3>Enregistrer un Ayant-Droit</h3>
             <form onSubmit={handleCreate} style={{ marginTop: '1.5rem' }}>
@@ -328,7 +350,7 @@ export default function ReversionListPage() {
                 </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '2rem' }}>
-                <button type="button" className="btn btn-ghost" onClick={() => setShowCreateModal(false)}>Annuler</button>
+                <button type="button" className="btn btn-ghost" onClick={() => { setShowCreateModal(false); resetFormData(); }}>Annuler</button>
                 <button type="submit" className="btn btn-primary">Enregistrer</button>
               </div>
             </form>

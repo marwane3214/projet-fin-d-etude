@@ -115,6 +115,10 @@ export default function PensionSimulationPage() {
         ...formData,
         affilieId: user?.affilieId
       });
+      if (!res?.summaryNet || !res?.summaryGross || !res?.careerSummaries || !res?.detailedProjections) {
+        toast.error('Résultat de simulation incomplet. Vérifiez vos paramètres.');
+        return;
+      }
       setResults(res);
       setStep(3);
       toast.success('Simulation générée avec succès');
@@ -129,7 +133,7 @@ export default function PensionSimulationPage() {
       <div className="page" style={{ padding: '2rem' }}>
         <div className="page-header" style={{ marginBottom: '2rem' }}>
           <h1 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <Settings size={28} color="var(--primary)" />
+            <Settings size={28} color="var(--brand)" />
             Paramètres de Simulation
           </h1>
           <p style={{ color: 'var(--text-secondary)' }}>
@@ -180,7 +184,7 @@ export default function PensionSimulationPage() {
     <div className="page" style={{ padding: '2rem' }}>
       <div className="page-header" style={{ marginBottom: '2rem' }}>
         <h1 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <Calculator size={28} color="var(--primary)" />
+          <Calculator size={28} color="var(--brand)" />
           Simulation de Pension
         </h1>
         <p style={{ color: 'var(--text-secondary)' }}>
@@ -189,9 +193,9 @@ export default function PensionSimulationPage() {
       </div>
 
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-        <div style={{ flex: 1, height: '4px', background: step >= 1 ? 'var(--primary)' : '#e2e8f0', borderRadius: '4px' }} />
-        <div style={{ flex: 1, height: '4px', background: step >= 2 ? 'var(--primary)' : '#e2e8f0', borderRadius: '4px' }} />
-        <div style={{ flex: 1, height: '4px', background: step >= 3 ? 'var(--primary)' : '#e2e8f0', borderRadius: '4px' }} />
+        <div style={{ flex: 1, height: '4px', background: step >= 1 ? 'var(--brand)' : '#e2e8f0', borderRadius: '4px' }} />
+        <div style={{ flex: 1, height: '4px', background: step >= 2 ? 'var(--brand)' : '#e2e8f0', borderRadius: '4px' }} />
+        <div style={{ flex: 1, height: '4px', background: step >= 3 ? 'var(--brand)' : '#e2e8f0', borderRadius: '4px' }} />
       </div>
 
       {step === 1 && (
@@ -342,7 +346,7 @@ export default function PensionSimulationPage() {
             </div>
 
             <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid var(--border)', paddingBottom: '1rem', marginBottom: '2rem' }}>
-              <h2 style={{ margin: 0, color: 'var(--primary)' }}>Résultats de votre Simulation</h2>
+              <h2 style={{ margin: 0, color: 'var(--brand)' }}>Résultats de votre Simulation</h2>
               <div style={{ display: 'flex', gap: '0.75rem' }}>
                 <button className="btn btn-ghost" onClick={() => setStep(1)}>Modifier</button>
                 <button className="btn btn-primary" onClick={() => window.print()}>

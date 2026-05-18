@@ -42,7 +42,7 @@ function mapToFrontend(item: any): DemandeLiquidation {
   return {
     id: item.id,
     affilieId: item.affilieId,
-    affilieNom: item.affilieId,
+    affilieNom: item.affilieNom || item.nomComplet || item.affilieId,
     typeLiquidation: 'NORMALE',
     dateDepot: item.dateDemande ? item.dateDemande.split('T')[0] : new Date().toISOString().split('T')[0],
     statut: mapToFrontendStatus(item.status),

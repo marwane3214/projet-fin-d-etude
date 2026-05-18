@@ -6,6 +6,7 @@ import {
   X, File, AlertTriangle, Building2, Clock, MapPin
 } from 'lucide-react';
 import { liquidationApi } from '../../api/liquidations';
+import { notificationApi } from '../../api/notifications';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
@@ -43,7 +44,7 @@ export default function LiquidationFormPage() {
   }, []);
 
   // Check if already submitted (persisted in localStorage)
-  const storageKey = `cimr_liquidation_submitted_${user?.username}`;
+  const storageKey = `cimr_liquidation_submitted_${user?.affilieId || user?.username}`;
   const alreadySubmitted = localStorage.getItem(storageKey) === 'true';
 
   const handleFileSelect = (docId: string, docLabel: string, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +100,7 @@ export default function LiquidationFormPage() {
     try {
       // Create the demande
       const saved = await liquidationApi.create({
-        affilieId: user?.username || '',
+        affilieId: user?.affilieId || user?.username || '',
         typeLiquidation: 'NORMALE', // determined by backend based on affiliate data
         dateDepot: new Date().toISOString().split('T')[0],
         statut: 'DEPOSE',
@@ -119,6 +120,15 @@ export default function LiquidationFormPage() {
       localStorage.setItem(storageKey, 'true');
       setStep('submitted');
       toast.success('Demande de liquidation déposée avec succès !');
+
+      // Notify admin
+      notificationApi.createNotification({
+        userId: 'admin',
+        title: 'Nouvelle demande de liquidation',
+        message: `L'affilié ${user?.username} a déposé une demande de liquidation avec ${uploadedFiles.length} document(s) joint(s).`,
+        type: 'LIQUIDATION',
+        referenceId: saved.id,
+      }).catch(() => {});
     } catch {
       toast.error('Erreur lors de la soumission. Veuillez réessayer.');
     } finally {
@@ -187,7 +197,7 @@ export default function LiquidationFormPage() {
                 }}>
                   <s.icon size={16} />
                 </div>
-                <span style={{ fontWeight: s.done ? 600 : 400, color: s.done ? 'var(--text-primary)' : 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                <span style={{ fontWeight: s.done ? 600 : 400, color: s.done ? 'var(--text)' : 'var(--text-secondary)', fontSize: '0.9rem' }}>
                   {s.text}
                 </span>
                 {s.done && <span className="badge badge-success" style={{ marginLeft: 'auto' }}>Fait</span>}

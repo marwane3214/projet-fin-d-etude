@@ -14,7 +14,12 @@ public class PointValueService {
     private final PointValueRepository pointValueRepository;
 
     public PointValue savePointValue(PointValue pointValue) {
-        return pointValueRepository.save(pointValue);
+        return pointValueRepository.findByYear(pointValue.getYear())
+                .map(existing -> {
+                    existing.setValue(pointValue.getValue());
+                    return pointValueRepository.save(existing);
+                })
+                .orElseGet(() -> pointValueRepository.save(pointValue));
     }
 
     public Optional<PointValue> getPointValueByYear(Integer year) {

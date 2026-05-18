@@ -49,7 +49,10 @@ export default function PaymentListPage() {
       ]);
       // If affilié (non-admin), filter to only show their own data
       if (!isAdmin && user?.username) {
-        const myAllocs = allocData.filter(a => a.affilieId === user.username || a.affilieUsername === user.username);
+        const myAllocs = allocData.filter(a =>
+          a.affilieId === (user.affilieId || user.username) ||
+          a.affilieUsername === user.username
+        );
         setAllocations(myAllocs);
         const myAllocIds = new Set(myAllocs.map(a => a.id));
         setPaiements(paiData.filter(p => myAllocIds.has(p.allocationId)));
@@ -77,7 +80,10 @@ export default function PaymentListPage() {
         setPaiements(allPais);
       } else {
         // Affilié sees only their own
-        const myAllocs = allAllocs.filter(a => a.affilieId === user?.username || a.affilieUsername === user?.username);
+        const myAllocs = allAllocs.filter(a =>
+          a.affilieId === (user?.affilieId || user?.username) ||
+          a.affilieUsername === user?.username
+        );
         setAllocations(myAllocs);
         const myIds = new Set(myAllocs.map(a => a.id));
         setPaiements(allPais.filter(p => myIds.has(p.allocationId)));
@@ -97,12 +103,23 @@ export default function PaymentListPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdmin, user?.username]);
 
+  const resetAllocationForm = () => setAllocationForm({
+    affilieId: '', typeAllocation: 'PENSION_MENSUELLE', montant: 0,
+    dateDebut: new Date().toISOString().split('T')[0], statut: 'ACTIVE',
+  });
+
+  const resetPaiementForm = () => setPaiementForm({
+    allocationId: '', montant: 0, datePaiement: new Date().toISOString().split('T')[0],
+    modePaiement: 'VIREMENT', statut: 'PLANIFIE',
+  });
+
   const handleCreateAllocation = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await paymentApi.createAllocation(allocationForm);
       toast.success('Allocation créée');
       setShowAllocationModal(false);
+      resetAllocationForm();
       loadData();
     } catch {
       toast.error("Erreur lors de la création");
@@ -115,6 +132,7 @@ export default function PaymentListPage() {
       await paymentApi.createPaiement(paiementForm);
       toast.success('Paiement planifié');
       setShowPaiementModal(false);
+      resetPaiementForm();
       loadData();
     } catch {
       toast.error("Erreur lors de la création du paiement");
@@ -347,7 +365,7 @@ export default function PaymentListPage() {
 
       {/* Create Allocation Modal */}
       {showAllocationModal && (
-        <div className="modal-overlay" onClick={() => setShowAllocationModal(false)}>
+        <div className="modal-overlay" onClick={() => { setShowAllocationModal(false); resetAllocationForm(); }}>
           <div className="modal-content" style={{ maxWidth: '500px' }} onClick={e => e.stopPropagation()}>
             <h3>Nouvelle Allocation</h3>
             <form onSubmit={handleCreateAllocation} style={{ marginTop: '1.5rem' }}>
@@ -378,7 +396,7 @@ export default function PaymentListPage() {
                 </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '2rem' }}>
-                <button type="button" className="btn btn-ghost" onClick={() => setShowAllocationModal(false)}>Annuler</button>
+                <button type="button" className="btn btn-ghost" onClick={() => { setShowAllocationModal(false); resetAllocationForm(); }}>Annuler</button>
                 <button type="submit" className="btn btn-primary">Créer</button>
               </div>
             </form>
@@ -388,7 +406,7 @@ export default function PaymentListPage() {
 
       {/* Create Paiement Modal */}
       {showPaiementModal && (
-        <div className="modal-overlay" onClick={() => setShowPaiementModal(false)}>
+        <div className="modal-overlay" onClick={() => { setShowPaiementModal(false); resetPaiementForm(); }}>
           <div className="modal-content" style={{ maxWidth: '500px' }} onClick={e => e.stopPropagation()}>
             <h3>Nouveau Paiement</h3>
             <form onSubmit={handleCreatePaiement} style={{ marginTop: '1.5rem' }}>
@@ -427,7 +445,7 @@ export default function PaymentListPage() {
                 </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '2rem' }}>
-                <button type="button" className="btn btn-ghost" onClick={() => setShowPaiementModal(false)}>Annuler</button>
+                <button type="button" className="btn btn-ghost" onClick={() => { setShowPaiementModal(false); resetPaiementForm(); }}>Annuler</button>
                 <button type="submit" className="btn btn-primary">Planifier</button>
               </div>
             </form>

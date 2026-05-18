@@ -34,7 +34,7 @@ export default function LiquidationListPage() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const data = await liquidationApi.getAll(isAdmin ? undefined : user?.username);
+      const data = await liquidationApi.getAll(isAdmin ? undefined : (user?.affilieId || user?.username));
       setDemandes(data);
     } catch {
       // Demo data
@@ -288,7 +288,7 @@ export default function LiquidationListPage() {
                       {isDone && !isCurrent ? <CheckCircle size={16} /> : <span style={{ fontSize: '0.75rem', fontWeight: 700 }}>{i + 1}</span>}
                     </div>
                     <div style={{ padding: '0.25rem 0 1.5rem' }}>
-                      <div style={{ fontWeight: isCurrent ? 700 : 500, fontSize: '0.9rem', color: !isDone && !isCurrent ? 'var(--text-muted)' : 'var(--text-primary)' }}>
+                      <div style={{ fontWeight: isCurrent ? 700 : 500, fontSize: '0.9rem', color: !isDone && !isCurrent ? 'var(--text-muted)' : 'var(--text)' }}>
                         {s.label}
                       </div>
                       {isCurrent && (

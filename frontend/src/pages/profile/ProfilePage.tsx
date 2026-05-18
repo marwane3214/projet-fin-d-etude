@@ -5,6 +5,7 @@ import {
   Save, Camera, Clock, Activity, Check, Eye, EyeOff
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { notificationApi } from '../../api/notifications';
 import toast from 'react-hot-toast';
 
 export default function ProfilePage() {
@@ -37,29 +38,45 @@ export default function ProfilePage() {
   const [savingProfile, setSavingProfile] = useState(false);
   const [savingPassword, setSavingPassword] = useState(false);
 
-  // Activity log
-  const activityLog = [
-    { action: 'Connexion', date: '14/04/2026 09:00', ip: '192.168.1.100', icon: Activity },
-    { action: 'Modification du profil', date: '13/04/2026 16:30', ip: '192.168.1.100', icon: User },
-    { action: 'Changement mot de passe', date: '10/04/2026 11:15', ip: '192.168.1.52', icon: Key },
-    { action: 'Connexion', date: '10/04/2026 09:05', ip: '192.168.1.100', icon: Activity },
-    { action: 'Export de données CNDP', date: '08/04/2026 14:45', ip: '192.168.1.100', icon: Shield },
-    { action: 'Connexion', date: '07/04/2026 08:55', ip: '10.0.0.55', icon: Activity },
-  ];
+  // Activity log — read from localStorage (tracked on login/save/password change)
+  const ACTIVITY_KEY = `cimr_activity_${user?.username}`;
+  const storedActivity: { action: string; date: string; ip: string; iconKey: string }[] =
+    JSON.parse(localStorage.getItem(ACTIVITY_KEY) || '[]');
+  const iconMap: Record<string, React.ElementType> = { Activity, User, Key, Shield, Camera };
+  const activityLog = storedActivity.length > 0
+    ? storedActivity.map(a => ({ ...a, icon: iconMap[a.iconKey] ?? Activity }))
+    : [{ action: 'Connexion initiale', date: new Date().toLocaleString('fr-FR'), ip: 'localhost', icon: Activity }];
+
+  const trackActivity = (action: string, iconKey: string) => {
+    const existing: { action: string; date: string; ip: string; iconKey: string }[] =
+      JSON.parse(localStorage.getItem(ACTIVITY_KEY) || '[]');
+    const entry = { action, date: new Date().toLocaleString('fr-FR'), ip: 'localhost', iconKey };
+    localStorage.setItem(ACTIVITY_KEY, JSON.stringify([entry, ...existing].slice(0, 10)));
+  };
 
   const handleSaveProfile = async () => {
     setSavingProfile(true);
     // Simulate API call and save to local storage for persistence
     await new Promise(r => setTimeout(r, 600));
     
-    // Persist modifications
     if (user?.username) {
       localStorage.setItem(`cimr_profile_${user.username}`, JSON.stringify(profileData));
+      trackActivity('Modification du profil', 'User');
     }
     
     setSavingProfile(false);
     setIsEditing(false);
     toast.success('Profil mis à jour avec succès');
+
+    // Notify admin silently
+    if (!isAdmin) {
+      notificationApi.createNotification({
+        userId: 'admin',
+        title: 'Modification du profil affilié',
+        message: `L'affilié ${user?.username} a mis à jour ses informations personnelles (email, téléphone, adresse).`,
+        type: 'AFFILIE',
+      }).catch(() => {});
+    }
   };
 
   const handleChangePassword = async (e: React.FormEvent) => {
@@ -79,6 +96,16 @@ export default function ProfilePage() {
     setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     setShowPasswordSection(false);
     toast.success('Mot de passe modifié avec succès');
+
+    // Notify admin silently
+    if (!isAdmin) {
+      notificationApi.createNotification({
+        userId: 'admin',
+        title: 'Changement de mot de passe',
+        message: `L'affilié ${user?.username} a modifié son mot de passe.`,
+        type: 'SECURITY',
+      }).catch(() => {});
+    }
   };
 
   const getPasswordStrength = (pw: string) => {
@@ -163,7 +190,7 @@ export default function ProfilePage() {
                 <span key={i} style={{
                   padding: '4px 10px', borderRadius: '6px',
                   fontSize: '0.7rem', fontWeight: 700,
-                  background: 'var(--primary)', color: '#fff',
+                  background: 'var(--brand)', color: '#fff',
                 }}>
                   {role.replace('ROLE_', '')}
                 </span>
