@@ -76,8 +76,8 @@ export default function ContributionListPage() {
   };
 
   const parseAndValidateCSV = (rawText: string): ImportRow[] => {
-    // 1. Remove BOM (UTF-8 BOM = ﻿, sometimes added by Excel)
-    const text = rawText.replace(/^﻿/, '');
+    // 1. Remove BOM (UTF-8 BOM, sometimes added by Excel)
+    const text = rawText.charCodeAt(0) === 0xFEFF ? rawText.slice(1) : rawText;
 
     // 2. Normalize ALL line-ending styles (\r\n Windows, \r old Mac, \n Unix) → \n
     const normalized = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');

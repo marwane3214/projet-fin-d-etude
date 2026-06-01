@@ -409,10 +409,45 @@ export default function PaymentListPage() {
         <div className="modal-overlay" onClick={() => { setShowPaiementModal(false); resetPaiementForm(); }}>
           <div className="modal-content" style={{ maxWidth: '500px' }} onClick={e => e.stopPropagation()}>
             <h3>Nouveau Paiement</h3>
+            {allocations.filter(a => a.statut === 'ACTIVE').length === 0 ? (
+              <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'var(--warning-bg)', border: '1px solid var(--warning-border)', borderRadius: 'var(--r-md)', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.95rem', color: '#92400e', fontWeight: 600, marginBottom: '0.5rem' }}>
+                  Aucune allocation active disponible
+                </div>
+                <p style={{ fontSize: '0.85rem', color: '#92400e', lineHeight: 1.5, marginBottom: '1.25rem' }}>
+                  Pour créer un paiement, vous devez d'abord avoir une allocation au statut <strong>Active</strong>. Créez une nouvelle allocation ou réactivez-en une existante.
+                </p>
+                <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+                  <button type="button" className="btn btn-ghost" onClick={() => { setShowPaiementModal(false); resetPaiementForm(); }}>
+                    Annuler
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={() => {
+                    setShowPaiementModal(false);
+                    resetPaiementForm();
+                    setShowAllocationModal(true);
+                  }}>
+                    <Plus size={16} /> Créer une Allocation
+                  </button>
+                </div>
+              </div>
+            ) : (
             <form onSubmit={handleCreatePaiement} style={{ marginTop: '1.5rem' }}>
               <div className="form-group" style={{ marginBottom: '1rem' }}>
                 <label>Allocation *</label>
-                <select className="form-control" value={paiementForm.allocationId} onChange={e => setPaiementForm({ ...paiementForm, allocationId: e.target.value })} required>
+                <select
+                  className="form-control"
+                  value={paiementForm.allocationId}
+                  onChange={e => {
+                    const allocId = e.target.value;
+                    const alloc = allocations.find(a => a.id === allocId);
+                    setPaiementForm({
+                      ...paiementForm,
+                      allocationId: allocId,
+                      montant: alloc?.montant || 0,
+                    });
+                  }}
+                  required
+                >
                   <option value="">Sélectionner...</option>
                   {allocations.filter(a => a.statut === 'ACTIVE').map(a => (
                     <option key={a.id} value={a.id}>{a.affilieNom} — {getTypeLabel(a.typeAllocation)} ({a.montant.toLocaleString()} MAD)</option>
@@ -449,6 +484,7 @@ export default function PaymentListPage() {
                 <button type="submit" className="btn btn-primary">Planifier</button>
               </div>
             </form>
+            )}
           </div>
         </div>
       )}

@@ -15,7 +15,8 @@ export const liquidationApi = {
   create: async (data: Partial<DemandeLiquidation>): Promise<DemandeLiquidation> => {
     const backendData = {
       affilieId: data.affilieId,
-      // The backend auto sets dateDemande and status
+      affilieNom: data.affilieNom,
+      typeLiquidation: data.typeLiquidation || 'NORMALE',
     };
     const res = await apiClient.post('/api/liquidations', backendData);
     return mapToFrontend(res.data);
@@ -42,9 +43,11 @@ function mapToFrontend(item: any): DemandeLiquidation {
   return {
     id: item.id,
     affilieId: item.affilieId,
-    affilieNom: item.affilieNom || item.nomComplet || item.affilieId,
-    typeLiquidation: 'NORMALE',
+    affilieNom: item.affilieNom || item.nomComplexe || undefined,
+    typeLiquidation: item.typeLiquidation || item.type || 'NORMALE',
     dateDepot: item.dateDemande ? item.dateDemande.split('T')[0] : new Date().toISOString().split('T')[0],
+    dateLiquidation: item.dateLiquidation ? item.dateLiquidation.split('T')[0] : undefined,
+    montantPension: item.montantPension != null ? Number(item.montantPension) : undefined,
     statut: mapToFrontendStatus(item.status),
     motifRejet: item.commentaireAdmin,
     createdAt: item.dateDemande,
@@ -57,11 +60,11 @@ function mapToFrontendDocument(doc: any): any {
   return {
     id: doc.id,
     typeDocument: doc.typeDocument,
-    nomFichier: doc.fileUri ? doc.fileUri.split('/').pop() : 'Fichier',
-    tailleFichier: 0,
+    nomFichier: doc.nomFichier || (doc.fileUri ? doc.fileUri.split('/').pop() : 'Fichier'),
+    tailleFichier: doc.tailleFichier ?? 0,
     urlFichier: doc.fileUri,
-    statut: doc.isVerified ? 'VALIDE' : 'EN_ATTENTE',
-    uploadDate: new Date().toISOString()
+    statut: doc.statut || (doc.isVerified ? 'VALIDE' : 'EN_ATTENTE'),
+    uploadDate: doc.uploadDate || new Date().toISOString()
   };
 }
 

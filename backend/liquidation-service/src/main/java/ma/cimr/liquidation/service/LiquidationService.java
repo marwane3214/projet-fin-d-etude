@@ -1,6 +1,7 @@
 package ma.cimr.liquidation.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ma.cimr.liquidation.model.DemandeLiquidation;
 import ma.cimr.liquidation.model.DossierDocument;
 import ma.cimr.liquidation.dto.NotificationEvent;
@@ -25,6 +26,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LiquidationService {
     private final LiquidationRepository liquidationRepository;
     private final DossierDocumentRepository documentRepository;
@@ -51,16 +53,19 @@ public class LiquidationService {
         demande.setDateDemande(LocalDateTime.now());
         demande.setStatus(DemandeLiquidation.LiquidationStatus.SUBMITTED);
         DemandeLiquidation saved = liquidationRepository.save(demande);
-        
-        // Notify Admins
-        notificationProducer.sendNotification(NotificationEvent.builder()
-                .userId("admin") // Generic admin tag or specific admin ID
-                .title("Nouvelle demande de liquidation")
-                .message("Une nouvelle demande a été soumise par l'affilié ID: " + demande.getAffilieId())
-                .type("LIQUIDATION_SUBMITTED")
-                .referenceId(saved.getId().toString())
-                .build());
-                
+
+        try {
+            notificationProducer.sendNotification(NotificationEvent.builder()
+                    .userId("admin")
+                    .title("Nouvelle demande de liquidation")
+                    .message("Une nouvelle demande a été soumise par l'affilié ID: " + demande.getAffilieId())
+                    .type("LIQUIDATION_SUBMITTED")
+                    .referenceId(saved.getId().toString())
+                    .build());
+        } catch (Exception e) {
+            log.warn("Failed to send liquidation notification to Kafka: {}", e.getMessage());
+        }
+
         return saved;
     }
 
@@ -71,16 +76,19 @@ public class LiquidationService {
         demande.setStatus(status);
         demande.setCommentaireAdmin(commentaire);
         DemandeLiquidation saved = liquidationRepository.save(demande);
-        
-        // Notify Affiliate
-        notificationProducer.sendNotification(NotificationEvent.builder()
-                .userId(demande.getAffilieId())
-                .title("Mise à jour de votre liquidation")
-                .message("Le statut de votre demande est passé à: " + status + ". Commentaire: " + commentaire)
-                .type("LIQUIDATION_STATUS_UPDATE")
-                .referenceId(saved.getId().toString())
-                .build());
-                
+
+        try {
+            notificationProducer.sendNotification(NotificationEvent.builder()
+                    .userId(demande.getAffilieId())
+                    .title("Mise à jour de votre liquidation")
+                    .message("Le statut de votre demande est passé à: " + status + ". Commentaire: " + commentaire)
+                    .type("LIQUIDATION_STATUS_UPDATE")
+                    .referenceId(saved.getId().toString())
+                    .build());
+        } catch (Exception e) {
+            log.warn("Failed to send status update notification to Kafka: {}", e.getMessage());
+        }
+
         return saved;
     }
 
@@ -102,6 +110,10 @@ public class LiquidationService {
                     .demande(demande)
                     .typeDocument(type)
                     .fileUri(UPLOAD_DIR + filename)
+                    .nomFichier(file.getOriginalFilename())
+                    .tailleFichier(file.getSize())
+                    .uploadDate(LocalDateTime.now())
+                    .statut(DossierDocument.DocumentStatut.EN_ATTENTE)
                     .isVerified(false)
                     .build();
 
@@ -123,9 +135,10 @@ public class LiquidationService {
             if (resource.exists() || resource.isReadable()) {
                 String contentType = "application/octet-stream";
                 try {
-                    contentType = Files.probeContentType(file);
+                    String probed = Files.probeContentType(file);
+                    if (probed != null) contentType = probed;
                 } catch (IOException e) {
-                    // fall back
+                    // fall back to octet-stream
                 }
                 
                 return ResponseEntity.ok()

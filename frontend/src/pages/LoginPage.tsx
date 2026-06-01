@@ -23,6 +23,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState<{ username: string; role: string } | null>(null);
 
   // Password recovery
   const [showRecoveryModal, setShowRecoveryModal] = useState(false);
@@ -60,15 +61,19 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const user = await authApi.login(data);
-      login(user);
       // Track login activity
       const actKey = `cimr_activity_${user.username}`;
       const prev = JSON.parse(localStorage.getItem(actKey) || '[]');
       localStorage.setItem(actKey, JSON.stringify(
         [{ action: 'Connexion', date: new Date().toLocaleString('fr-FR'), ip: 'localhost', iconKey: 'Activity' }, ...prev].slice(0, 10)
       ));
-      toast.success('Connexion réussie !');
-      navigate('/dashboard');
+      const role = user.roles?.includes('ROLE_ADMIN' as never) ? 'Administrateur' : 'Affilié';
+      // Show success animation BEFORE login() — otherwise PublicRoute redirects immediately
+      setSuccess({ username: user.username, role });
+      setTimeout(() => {
+        login(user);
+        navigate('/dashboard');
+      }, 1400);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const message = err?.response?.data?.error
@@ -204,6 +209,106 @@ export default function LoginPage() {
 
   return (
     <div className="login-page">
+      {success && (
+        <div className="login-success-overlay">
+          <div className="login-success-card">
+            <div className="login-success-check">
+              <svg viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="24" />
+                <path d="M14 27 L23 36 L39 18" />
+              </svg>
+            </div>
+            <h2 className="login-success-title">Connexion réussie</h2>
+            <p className="login-success-user">
+              Bienvenue, <strong>{success.username}</strong>
+            </p>
+            <span className="login-success-role">{success.role}</span>
+            <div className="login-success-loader"><div /></div>
+          </div>
+          <style>{`
+            .login-success-overlay {
+              position: fixed; inset: 0; z-index: 9999;
+              display: flex; align-items: center; justify-content: center;
+              background: rgba(10, 22, 10, 0.55);
+              backdrop-filter: blur(8px);
+              -webkit-backdrop-filter: blur(8px);
+              animation: lsoFade 0.35s ease-out;
+            }
+            .login-success-card {
+              background: #fff;
+              padding: 2.5rem 3rem;
+              border-radius: 20px;
+              box-shadow: 0 30px 80px -20px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06);
+              display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+              min-width: 320px;
+              animation: lsoCard 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .login-success-check {
+              width: 72px; height: 72px;
+              margin-bottom: 0.5rem;
+            }
+            .login-success-check svg {
+              width: 100%; height: 100%;
+              stroke: #3DAA2E; stroke-width: 3;
+              fill: none; stroke-linecap: round; stroke-linejoin: round;
+              filter: drop-shadow(0 4px 12px rgba(61,170,46,0.35));
+            }
+            .login-success-check circle {
+              stroke-dasharray: 151;
+              stroke-dashoffset: 151;
+              animation: lsoCircle 0.5s 0.1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+            }
+            .login-success-check path {
+              stroke-dasharray: 50;
+              stroke-dashoffset: 50;
+              animation: lsoCheck 0.35s 0.55s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+            }
+            .login-success-title {
+              font-size: 1.25rem; font-weight: 600; color: #111827;
+              margin: 0; letter-spacing: -0.01em;
+              opacity: 0; animation: lsoTextUp 0.4s 0.7s ease-out forwards;
+            }
+            .login-success-user {
+              color: #4B5563; font-size: 0.9375rem; margin: 0;
+              opacity: 0; animation: lsoTextUp 0.4s 0.8s ease-out forwards;
+            }
+            .login-success-user strong { color: #111827; font-weight: 600; }
+            .login-success-role {
+              font-size: 0.6875rem; font-weight: 600;
+              letter-spacing: 0.1em; text-transform: uppercase;
+              color: #3DAA2E;
+              background: #F0FAF0;
+              padding: 0.3rem 0.75rem;
+              border-radius: 99px;
+              border: 1px solid #BBE8B3;
+              opacity: 0; animation: lsoTextUp 0.4s 0.9s ease-out forwards;
+            }
+            .login-success-loader {
+              width: 100%; height: 2px; background: #F3F4F6;
+              border-radius: 99px; overflow: hidden; margin-top: 1.25rem;
+              opacity: 0; animation: lsoTextUp 0.3s 1s ease-out forwards;
+            }
+            .login-success-loader > div {
+              height: 100%; width: 0%;
+              background: linear-gradient(90deg, #3DAA2E, #52C240, #F5A422);
+              border-radius: 99px;
+              animation: lsoLoader 0.5s 1.05s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+            }
+            @keyframes lsoFade { from { opacity: 0; } to { opacity: 1; } }
+            @keyframes lsoCard {
+              from { opacity: 0; transform: translateY(20px) scale(0.96); }
+              to   { opacity: 1; transform: translateY(0) scale(1); }
+            }
+            @keyframes lsoCircle { to { stroke-dashoffset: 0; } }
+            @keyframes lsoCheck  { to { stroke-dashoffset: 0; } }
+            @keyframes lsoTextUp {
+              from { opacity: 0; transform: translateY(8px); }
+              to   { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes lsoLoader { to { width: 100%; } }
+          `}</style>
+        </div>
+      )}
       <div className="login-bg-shape login-bg-shape-1" />
       <div className="login-bg-shape login-bg-shape-2" />
       <div className="login-bg-shape login-bg-shape-3" />

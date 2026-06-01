@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Bell, Shield, Palette, Globe, Database, Monitor, Moon, Sun, Save, Check, Lock, Eye, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 // Settings persisted in localStorage
 const STORAGE_KEY = 'cimr_settings';
@@ -97,6 +98,8 @@ const ToggleSwitch = ({ value, onChange, label, description }: { value: boolean;
 );
 
 export default function SettingsPage() {
+  const { setLanguage, t } = useLanguage();
+  const s = t.settings;
   const [activeTab, setActiveTab] = useState<'notifications' | 'appearance' | 'language' | 'security' | 'privacy'>('notifications');
   const [settings, setSettings] = useState<AppSettings>(loadSettings);
   const [saved, setSaved] = useState(false);
@@ -108,7 +111,11 @@ export default function SettingsPage() {
       root.setAttribute('data-theme', 'dark');
     } else if (settings.theme === 'system') {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      prefersDark ? root.setAttribute('data-theme', 'dark') : root.removeAttribute('data-theme');
+      if (prefersDark) {
+        root.setAttribute('data-theme', 'dark');
+      } else {
+        root.removeAttribute('data-theme');
+      }
     } else {
       root.removeAttribute('data-theme');
     }
@@ -133,36 +140,36 @@ export default function SettingsPage() {
   const handleSaveAll = () => {
     saveSettings(settings);
     setSaved(true);
-    toast.success('Paramètres sauvegardés');
-
+    toast.success(s.save);
   };
 
   const handleResetAll = () => {
-    if (window.confirm('Réinitialiser tous les paramètres par défaut ?')) {
+    if (window.confirm(s.reset + ' ?')) {
       setSettings(defaultSettings);
       saveSettings(defaultSettings);
-      toast.success('Paramètres réinitialisés');
+      setLanguage('fr');
+      toast.success(s.reset);
     }
   };
 
   const tabs = [
-    { id: 'notifications' as const, label: 'Notifications', icon: Bell },
-    { id: 'appearance' as const, label: 'Apparence', icon: Palette },
-    { id: 'language' as const, label: 'Langue & Région', icon: Globe },
-    { id: 'security' as const, label: 'Sécurité', icon: Shield },
-    { id: 'privacy' as const, label: 'Confidentialité', icon: Database },
+    { id: 'notifications' as const, label: s.tabNotifications, icon: Bell },
+    { id: 'appearance' as const, label: s.tabAppearance, icon: Palette },
+    { id: 'language' as const, label: s.tabLanguage, icon: Globe },
+    { id: 'security' as const, label: s.tabSecurity, icon: Shield },
+    { id: 'privacy' as const, label: s.tabPrivacy, icon: Database },
   ];
   return (
     <div className="page">
       <div className="page-header">
         <div>
-          <h1>Paramètres</h1>
-          <p>Configurer l'application selon vos préférences</p>
+          <h1>{s.title}</h1>
+          <p>{s.subtitle}</p>
         </div>
         <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <button className="btn btn-ghost" onClick={handleResetAll}>Réinitialiser</button>
+          <button className="btn btn-ghost" onClick={handleResetAll}>{s.reset}</button>
           <button className="btn btn-primary" onClick={handleSaveAll}>
-            {saved ? <><Check size={16} /> Sauvegardé</> : <><Save size={16} /> Sauvegarder</>}
+            {saved ? <><Check size={16} /> {s.saved}</> : <><Save size={16} /> {s.save}</>}
           </button>
         </div>
       </div>
@@ -206,60 +213,23 @@ export default function SettingsPage() {
           {/* === NOTIFICATIONS === */}
           {activeTab === 'notifications' && (
             <>
-              <h3 className="form-section-title"><Bell size={20} /> Préférences de Notifications</h3>
-
+              <h3 className="form-section-title"><Bell size={20} /> {s.tabNotifications}</h3>
               <div style={{ marginBottom: '2rem' }}>
                 <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
-                  Canaux
+                  {s.sectionChannels}
                 </h4>
-                <ToggleSwitch
-                  value={settings.emailNotifications}
-                  onChange={v => updateSetting('emailNotifications', v)}
-                  label="Notifications par Email"
-                  description="Recevoir les alertes et résumés par email"
-                />
-                <ToggleSwitch
-                  value={settings.pushNotifications}
-                  onChange={v => updateSetting('pushNotifications', v)}
-                  label="Notifications Push"
-                  description="Notifications en temps réel dans le navigateur"
-                />
-                <ToggleSwitch
-                  value={settings.notifSound}
-                  onChange={v => updateSetting('notifSound', v)}
-                  label={settings.notifSound ? "Son activé" : "Son désactivé"}
-                  description="Émettre un son lors de nouvelles notifications"
-                />
+                <ToggleSwitch value={settings.emailNotifications} onChange={v => updateSetting('emailNotifications', v)} label={s.emailNotif} description={s.emailNotifDesc} />
+                <ToggleSwitch value={settings.pushNotifications} onChange={v => updateSetting('pushNotifications', v)} label={s.pushNotif} description={s.pushNotifDesc} />
+                <ToggleSwitch value={settings.notifSound} onChange={v => updateSetting('notifSound', v)} label={settings.notifSound ? s.soundOn : s.soundOff} description={s.soundDesc} />
               </div>
-
               <div>
                 <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
-                  Catégories
+                  {s.sectionCategories}
                 </h4>
-                <ToggleSwitch
-                  value={settings.notifLiquidation}
-                  onChange={v => updateSetting('notifLiquidation', v)}
-                  label="Liquidation"
-                  description="Nouvelles demandes, changements de statut"
-                />
-                <ToggleSwitch
-                  value={settings.notifPaiement}
-                  onChange={v => updateSetting('notifPaiement', v)}
-                  label="Paiements"
-                  description="Paiements exécutés, échéances, échecs"
-                />
-                <ToggleSwitch
-                  value={settings.notifReversion}
-                  onChange={v => updateSetting('notifReversion', v)}
-                  label="Réversion"
-                  description="Demandes d'ayants-droit, approbations"
-                />
-                <ToggleSwitch
-                  value={settings.notifSystem}
-                  onChange={v => updateSetting('notifSystem', v)}
-                  label="Système"
-                  description="Maintenance, mises à jour, alertes de sécurité"
-                />
+                <ToggleSwitch value={settings.notifLiquidation} onChange={v => updateSetting('notifLiquidation', v)} label={t.nav.liquidations} description="" />
+                <ToggleSwitch value={settings.notifPaiement} onChange={v => updateSetting('notifPaiement', v)} label={t.nav.payments} description="" />
+                <ToggleSwitch value={settings.notifReversion} onChange={v => updateSetting('notifReversion', v)} label={t.nav.reversions} description="" />
+                <ToggleSwitch value={settings.notifSystem} onChange={v => updateSetting('notifSystem', v)} label="Système" description="" />
               </div>
             </>
           )}
@@ -267,17 +237,16 @@ export default function SettingsPage() {
           {/* === APPEARANCE === */}
           {activeTab === 'appearance' && (
             <>
-              <h3 className="form-section-title"><Palette size={20} /> Apparence</h3>
-
+              <h3 className="form-section-title"><Palette size={20} /> {s.tabAppearance}</h3>
               <div style={{ marginBottom: '2rem' }}>
                 <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, marginBottom: '1rem', color: 'var(--text-secondary)' }}>
-                  Thème de l'interface
+                  {s.theme}
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
                   {[
-                    { value: 'light' as const, label: 'Clair', icon: Sun, colors: ['#ffffff', '#f8fafc'] },
-                    { value: 'dark' as const, label: 'Sombre', icon: Moon, colors: ['#0f172a', '#1e293b'] },
-                    { value: 'system' as const, label: 'Système', icon: Monitor, colors: ['#ffffff', '#0f172a'] },
+                    { value: 'light' as const, label: s.light, icon: Sun, colors: ['#ffffff', '#f8fafc'] },
+                    { value: 'dark' as const, label: s.dark, icon: Moon, colors: ['#0f172a', '#1e293b'] },
+                    { value: 'system' as const, label: s.system, icon: Monitor, colors: ['#ffffff', '#0f172a'] },
                   ].map(theme => (
                     <button
                       key={theme.value}
@@ -307,13 +276,13 @@ export default function SettingsPage() {
 
               <div style={{ marginBottom: '1.5rem' }}>
                 <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 600, marginBottom: '0.75rem', color: 'var(--text-secondary)' }}>
-                  Taille du texte
+                  {s.fontSize}
                 </label>
                 <div style={{ display: 'flex', gap: '0.75rem' }}>
                   {[
-                    { value: 'small' as const, label: 'Petit', size: '13px' },
-                    { value: 'medium' as const, label: 'Moyen', size: '15px' },
-                    { value: 'large' as const, label: 'Grand', size: '17px' },
+                    { value: 'small' as const, label: s.small, size: '13px' },
+                    { value: 'medium' as const, label: s.medium, size: '15px' },
+                    { value: 'large' as const, label: s.large, size: '17px' },
                   ].map(fs => (
                     <button
                       key={fs.value}
@@ -333,40 +302,34 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <ToggleSwitch
-                value={settings.sidebarCompact}
-                onChange={v => updateSetting('sidebarCompact', v)}
-                label="Barre latérale compacte"
-                description="Réduire la barre latérale par défaut"
-              />
-              <ToggleSwitch
-                value={settings.animationsEnabled}
-                onChange={v => updateSetting('animationsEnabled', v)}
-                label="Animations"
-                description="Activer les transitions et animations de l'interface"
-              />
+              <ToggleSwitch value={settings.sidebarCompact} onChange={v => updateSetting('sidebarCompact', v)} label={s.compactSidebar} description={s.compactSidebarDesc} />
+              <ToggleSwitch value={settings.animationsEnabled} onChange={v => updateSetting('animationsEnabled', v)} label={s.animations} description={s.animationsDesc} />
             </>
           )}
 
           {/* === LANGUAGE === */}
           {activeTab === 'language' && (
             <>
-              <h3 className="form-section-title"><Globe size={20} /> Langue & Région</h3>
-
+              <h3 className="form-section-title"><Globe size={20} /> {s.tabLanguage}</h3>
               <div className="form-grid cols-2" style={{ gap: '1.5rem' }}>
                 <div className="form-group">
-                  <label>Langue de l'interface</label>
+                  <label>{s.language}</label>
                   <select
                     className="form-control"
                     value={settings.language}
-                    onChange={e => updateSetting('language', e.target.value as AppSettings['language'])}
+                    onChange={e => {
+                      const lang = e.target.value as AppSettings['language'];
+                      updateSetting('language', lang);
+                      setLanguage(lang);
+                      toast.success(lang === 'ar' ? 'تم تغيير اللغة إلى العربية' : 'Langue changée en Français');
+                    }}
                   >
                     <option value="fr">🇫🇷 Français</option>
                     <option value="ar">🇲🇦 Arabe (العربية)</option>
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Format de date</label>
+                  <label>{s.dateFormat}</label>
                   <select
                     className="form-control"
                     value={settings.dateFormat}
@@ -377,7 +340,7 @@ export default function SettingsPage() {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Devise</label>
+                  <label>{s.currency}</label>
                   <select
                     className="form-control"
                     value={settings.currency}
@@ -388,7 +351,7 @@ export default function SettingsPage() {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Fuseau horaire</label>
+                  <label>{s.timezone}</label>
                   <input type="text" value="Africa/Casablanca (GMT+1)" disabled style={{ background: 'var(--bg-input)', cursor: 'not-allowed' }} />
                 </div>
               </div>
@@ -398,10 +361,9 @@ export default function SettingsPage() {
           {/* === SECURITY === */}
           {activeTab === 'security' && (
             <>
-              <h3 className="form-section-title"><Shield size={20} /> Sécurité</h3>
-
+              <h3 className="form-section-title"><Shield size={20} /> {s.tabSecurity}</h3>
               <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                <label>Délai d'expiration de la session (minutes)</label>
+                <label>{s.sessionTimeout}</label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   <input
                     type="range"
@@ -423,22 +385,17 @@ export default function SettingsPage() {
                 value={settings.twoFactorEnabled}
                 onChange={v => {
                   updateSetting('twoFactorEnabled', v);
-                  toast(v ? 'Authentification 2FA activée' : 'Authentification 2FA désactivée', { icon: v ? '🔒' : '🔓' });
+                  toast(s.twoFactor, { icon: v ? '🔒' : '🔓' });
                 }}
-                label="Authentification à deux facteurs (2FA)"
-                description="Ajouter une couche de sécurité supplémentaire lors de la connexion"
+                label={s.twoFactor}
+                description={s.twoFactorDesc}
               />
-              <ToggleSwitch
-                value={settings.loginAlerts}
-                onChange={v => updateSetting('loginAlerts', v)}
-                label="Alertes de connexion"
-                description="Recevoir un email lors de chaque connexion à votre compte"
-              />
+              <ToggleSwitch value={settings.loginAlerts} onChange={v => updateSetting('loginAlerts', v)} label={s.loginAlerts} description={s.loginAlertsDesc} />
 
               <div style={{ marginTop: '1.5rem', padding: '1.25rem', background: 'var(--info-bg)', borderRadius: 'var(--radius-md)', border: '1px solid #bfdbfe' }}>
                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.5rem' }}>
                   <Lock size={18} style={{ color: 'var(--brand)' }} />
-                  <strong style={{ color: 'var(--brand)', fontSize: '0.9rem' }}>Sessions Actives</strong>
+                  <strong style={{ color: 'var(--brand)', fontSize: '0.9rem' }}>{s.activeSessions}</strong>
                 </div>
                 <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #dbeafe' }}>
@@ -463,36 +420,16 @@ export default function SettingsPage() {
           {/* === PRIVACY === */}
           {activeTab === 'privacy' && (
             <>
-              <h3 className="form-section-title"><Database size={20} /> Confidentialité & Données</h3>
-
-              <div style={{
-                padding: '1.25rem', background: 'var(--warning-bg)', borderRadius: 'var(--radius-md)',
-                border: '1px solid #fef3c7', marginBottom: '1.5rem',
-                display: 'flex', gap: '0.75rem', alignItems: 'flex-start',
-              }}>
+              <h3 className="form-section-title"><Database size={20} /> {s.tabPrivacy}</h3>
+              <div style={{ padding: '1.25rem', background: 'var(--warning-bg)', borderRadius: 'var(--radius-md)', border: '1px solid #fef3c7', marginBottom: '1.5rem', display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
                 <Shield size={18} style={{ color: 'var(--warning)', flexShrink: 0, marginTop: '2px' }} />
                 <div>
-                  <strong style={{ color: '#92400e', fontSize: '0.9rem' }}>Conformité CNDP — Loi 09-08</strong>
-                  <p style={{ fontSize: '0.85rem', color: '#92400e', margin: '0.25rem 0 0', lineHeight: 1.5 }}>
-                    Vos données personnelles sont protégées conformément à la loi 09-08 relative à la protection 
-                    des données à caractère personnel. Vous avez le droit d'accéder, de rectifier et de supprimer vos données.
-                  </p>
+                  <strong style={{ color: '#92400e', fontSize: '0.9rem' }}>{s.cndpTitle}</strong>
+                  <p style={{ fontSize: '0.85rem', color: '#92400e', margin: '0.25rem 0 0', lineHeight: 1.5 }}>{s.cndpDesc}</p>
                 </div>
               </div>
-
-              <ToggleSwitch
-                value={settings.analyticsEnabled}
-                onChange={v => updateSetting('analyticsEnabled', v)}
-                label="Analytics d'utilisation"
-                description="Nous aider à améliorer l'application en partageant des données d'usage anonymes"
-              />
-              <ToggleSwitch
-                value={settings.dataSharingEnabled}
-                onChange={v => updateSetting('dataSharingEnabled', v)}
-                label="Partage de données"
-                description="Autoriser le partage de données anonymisées avec des partenaires CIMR"
-              />
-
+              <ToggleSwitch value={settings.analyticsEnabled} onChange={v => updateSetting('analyticsEnabled', v)} label={s.analytics} description={s.analyticsDesc} />
+              <ToggleSwitch value={settings.dataSharingEnabled} onChange={v => updateSetting('dataSharingEnabled', v)} label={s.dataSharing} description={s.dataSharingDesc} />
               <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <button className="btn btn-ghost" onClick={() => {
                   const blob = new Blob([JSON.stringify({ username: 'admin', settings, exportDate: new Date().toISOString() }, null, 2)], { type: 'application/json' });
@@ -501,16 +438,16 @@ export default function SettingsPage() {
                   a.href = url; a.download = 'cimr_data_export.json';
                   document.body.appendChild(a); a.click();
                   document.body.removeChild(a); URL.revokeObjectURL(url);
-                  toast.success('Données exportées avec succès');
+                  toast.success(s.exportData);
                 }}>
-                  <Eye size={16} /> Exporter mes données
+                  <Eye size={16} /> {s.exportData}
                 </button>
                 <button className="btn btn-danger" onClick={() => {
-                  if (window.confirm('⚠️ Cette action est irréversible. Voulez-vous vraiment supprimer toutes vos données ?')) {
-                    toast.error('Demande de suppression envoyée à l\'administrateur');
+                  if (window.confirm('⚠️ ' + s.deleteAccount + ' ?')) {
+                    toast.error(s.deleteAccount);
                   }
                 }}>
-                  <Trash2 size={16} /> Supprimer mon compte
+                  <Trash2 size={16} /> {s.deleteAccount}
                 </button>
               </div>
             </>

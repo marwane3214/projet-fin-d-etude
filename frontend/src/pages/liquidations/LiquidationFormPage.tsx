@@ -96,12 +96,18 @@ export default function LiquidationFormPage() {
   };
 
   const handleFinalSubmit = async () => {
+    const affilieId = user?.affilieId || user?.username;
+    if (!affilieId) {
+      toast.error('Impossible d\'identifier votre compte. Veuillez vous reconnecter.');
+      return;
+    }
     setLoading(true);
     try {
       // Create the demande
       const saved = await liquidationApi.create({
-        affilieId: user?.affilieId || user?.username || '',
-        typeLiquidation: 'NORMALE', // determined by backend based on affiliate data
+        affilieId,
+        affilieNom: user?.nomComplexe || user?.username || '',
+        typeLiquidation: 'NORMALE',
         dateDepot: new Date().toISOString().split('T')[0],
         statut: 'DEPOSE',
       });

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import AppLayout from './components/layout/AppLayout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
@@ -64,6 +65,7 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
+      <LanguageProvider>
       <AuthProvider>
         <NotificationProvider>
         <AppRoutes />
@@ -76,6 +78,7 @@ export default function App() {
         />
         </NotificationProvider>
       </AuthProvider>
+      </LanguageProvider>
     </BrowserRouter>
   );
 }

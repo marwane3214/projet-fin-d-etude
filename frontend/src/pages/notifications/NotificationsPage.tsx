@@ -80,8 +80,8 @@ function saveTrashedIds(ids: Set<string>) {
 
 export default function NotificationsPage() {
   const {
-    notifications, unreadCount, loading, error,
-    markAsRead, markAllRead, remove, clearAll, refresh,
+    notifications, loading, error,
+    markAsRead, markAllRead, remove, refresh,
   } = useNotifications();
 
   const [activeTab,   setActiveTab]   = useState<Tab>('all');

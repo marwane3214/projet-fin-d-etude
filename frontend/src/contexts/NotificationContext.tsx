@@ -73,7 +73,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   // Initial fetch + polling
   useEffect(() => {
     if (!isAuthenticated || !userId) return;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchNotifications();
     const interval = setInterval(fetchNotifications, POLL_INTERVAL_MS);
     return () => clearInterval(interval);

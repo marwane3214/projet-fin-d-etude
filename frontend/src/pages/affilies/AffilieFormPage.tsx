@@ -95,10 +95,12 @@ export default function AffilieFormPage() {
       };
 
       if (isEdit) {
-        await affilieApi.update(id, payload);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await affilieApi.update(id, payload as any);
         toast.success('Affilié modifié avec succès');
       } else {
-        await affilieApi.create(payload);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await affilieApi.create(payload as any);
         toast.success('Affilié créé avec succès');
       }
       navigate('/affilies');

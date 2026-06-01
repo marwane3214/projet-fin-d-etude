@@ -9,20 +9,22 @@ import AiAssistant from '../ai/AiAssistant';
 import Breadcrumb from './Breadcrumb';
 import logoImage from '../../assets/image.png';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
-const navItems = [
-  { path: '/dashboard', label: 'Tableau de bord', icon: LayoutDashboard, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
-  { path: '/affilies', label: 'Affiliés', icon: Users, roles: ['ROLE_ADMIN'] },
-  { path: '/contributions', label: 'Cotisations', icon: Wallet, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
-  { path: '/contributions/points', label: 'Achat de points', icon: ShoppingCart, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
-  { path: '/simulation', label: 'Simulation', icon: Calculator, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
-  { path: '/liquidations', label: 'Liquidation', icon: FileText, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
-  { path: '/payments', label: 'Paiements', icon: CreditCard, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
+const navItemsConfig = [
+  { path: '/dashboard', key: 'dashboard', icon: LayoutDashboard, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
+  { path: '/affilies', key: 'affilies', icon: Users, roles: ['ROLE_ADMIN'] },
+  { path: '/contributions', key: 'contributions', icon: Wallet, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
+  { path: '/contributions/points', key: 'pointsAchat', icon: ShoppingCart, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
+  { path: '/simulation', key: 'simulation', icon: Calculator, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
+  { path: '/liquidations', key: 'liquidations', icon: FileText, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
+  { path: '/payments', key: 'payments', icon: CreditCard, roles: ['ROLE_ADMIN', 'ROLE_AFFILIE'] },
 ];
 
 export default function AppLayout() {
   const { user, logout, isAdmin } = useAuth();
   const { unreadCount } = useNotifications();
+  const { t, isRTL } = useLanguage();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -45,10 +47,10 @@ export default function AppLayout() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [profileOpen]);
 
-  const filteredNav = navItems.filter(item =>
+  const filteredNav = navItemsConfig
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    item.roles.some(role => user?.roles?.includes(role as any))
-  );
+    .filter(item => item.roles.some(role => user?.roles?.includes(role as any)))
+    .map(item => ({ ...item, label: t.nav[item.key as keyof typeof t.nav] || item.key }));
 
   const goTo = (path: string) => {
     setProfileOpen(false);
@@ -56,7 +58,7 @@ export default function AppLayout() {
   };
 
   return (
-    <div className={`app-layout ${sidebarOpen ? '' : 'sidebar-collapsed'} ${mobileMenuOpen ? 'sidebar-mobile-open' : ''}`}>
+    <div className={`app-layout ${sidebarOpen ? '' : 'sidebar-collapsed'} ${mobileMenuOpen ? 'sidebar-mobile-open' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {mobileMenuOpen && <div className="modal-overlay" style={{ zIndex: 95 }} onClick={() => setMobileMenuOpen(false)} />}
 
       {/* Sidebar */}
@@ -72,7 +74,7 @@ export default function AppLayout() {
         </div>
 
         <nav className="sidebar-nav">
-          {sidebarOpen && <div className="sidebar-section-label">Navigation</div>}
+          {sidebarOpen && <div className="sidebar-section-label">{isRTL ? 'التنقل' : 'Navigation'}</div>}
           {filteredNav.map(item => (
             <NavLink
               key={item.path}

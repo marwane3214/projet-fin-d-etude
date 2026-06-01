@@ -184,7 +184,7 @@ function AdminDashboard() {
         .slice(0, 5)
         .map((l: DemandeLiquidation) => ({
           id: l.id || '',
-          affilieNom: affilieMap.get(l.affilieId) || l.affilieId,
+          affilieNom: l.affilieNom || affilieMap.get(l.affilieId) || l.affilieId,
           type: TYPE_LABELS[l.typeLiquidation] || l.typeLiquidation,
           date: new Date(l.dateDepot).toLocaleDateString('fr-MA'),
           priority: getPriority(l),
@@ -490,7 +490,8 @@ function AffilieDashboard({ username }: { username: string }) {
 
   const fetchData = async () => {
     try {
-      const pointsData = await contributionApi.getPoints(user?.affilieId || '');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const pointsData: any = await contributionApi.getPoints(user?.affilieId || '');
       setTotalPoints(pointsData.totalPoints || 0);
 
       const contributions = await contributionApi.getHistory(user?.affilieId || '');

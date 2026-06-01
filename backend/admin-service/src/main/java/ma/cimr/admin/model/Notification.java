@@ -1,5 +1,6 @@
 package ma.cimr.admin.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ public class Notification {
     private LocalDateTime createdAt;
 
     @Column(name = "is_read")
+    @JsonProperty("isRead")
     private boolean isRead;
 
     private String type; // LIQUIDATION, CONTRIBUTION, MESSAGE, etc.

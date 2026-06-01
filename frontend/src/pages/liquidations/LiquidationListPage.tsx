@@ -603,7 +603,7 @@ export default function LiquidationListPage() {
 
       {/* Status Change Modal */}
       {showStatusModal && selectedDemande && (
-        <div className="modal-overlay" onClick={() => setShowStatusModal(false)}>
+        <div className="modal-overlay" onClick={() => { setShowStatusModal(false); setMotifRejet(''); }}>
           <div className="modal-content" style={{ maxWidth: '450px' }} onClick={e => e.stopPropagation()}>
             <h3>Changer le Statut</h3>
             <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
@@ -636,7 +636,7 @@ export default function LiquidationListPage() {
                 </div>
               )}
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '2rem' }}>
-                <button type="button" className="btn btn-ghost" onClick={() => setShowStatusModal(false)}>Annuler</button>
+                <button type="button" className="btn btn-ghost" onClick={() => { setShowStatusModal(false); setMotifRejet(''); }}>Annuler</button>
                 <button type="submit" className="btn btn-primary">Appliquer</button>
               </div>
             </form>
