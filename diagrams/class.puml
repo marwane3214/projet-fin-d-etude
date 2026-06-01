@@ -1,0 +1,110 @@
+@startuml
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor #EAF5E8
+  BorderColor #3DAA2E
+  HeaderBackgroundColor #3DAA2E
+  FontColor black
+  HeaderFontColor white
+  FontSize 12
+  HeaderFontSize 13
+}
+skinparam arrow {
+  Color #3DAA2E
+}
+
+' ══════════════════════════
+'  CLASSES PRINCIPALES
+' ══════════════════════════
+
+class User {
+  - id : Long
+  - username : String
+  - password : String
+  - role : Role
+  - enabled : boolean
+}
+
+class Affilie {
+  - id : Long
+  - nom : String
+  - prenom : String
+  - cin : String
+  - dateNaissance : Date
+  - email : String
+  - telephone : String
+  - statut : Statut
+}
+
+class Cotisation {
+  - id : Long
+  - annee : int
+  - mois : int
+  - montant : Double
+  - points : Double
+  - statut : Statut
+}
+
+class Liquidation {
+  - id : Long
+  - type : TypeLiquidation
+  - statut : Statut
+  - dateDemande : Date
+  - montantCalcule : Double
+  - dateValidation : Date
+}
+
+class Paiement {
+  - id : Long
+  - montant : Double
+  - datePaiement : Date
+  - statut : Statut
+  - reference : String
+  - modePaiement : String
+}
+
+class Reversion {
+  - id : Long
+  - nomBeneficiaire : String
+  - lienFamilial : String
+  - montant : Double
+  - statut : Statut
+  - dateDebut : Date
+}
+
+class Notification {
+  - id : Long
+  - titre : String
+  - message : String
+  - type : TypeNotif
+  - lu : boolean
+  - dateCreation : LocalDateTime
+}
+
+class AuditLog {
+  - id : Long
+  - action : String
+  - utilisateur : String
+  - entite : String
+  - timestamp : LocalDateTime
+  - details : String
+}
+
+' ══════════════════════════
+'  ASSOCIATIONS
+' ══════════════════════════
+
+User        "1"  --  "1"    Affilie       : possède >
+User        "1"  --  "0..*" Notification  : reçoit >
+User        "1"  --  "0..*" AuditLog      : génère >
+
+Affilie     "1"  --  "0..*" Cotisation    : cotise >
+Affilie     "1"  --  "0..*" Liquidation   : demande >
+Affilie     "1"  --  "0..*" Paiement      : perçoit >
+Affilie     "1"  --  "0..*" Reversion     : déclare >
+
+Liquidation "1"  --  "0..1" Paiement      : génère >
+
+@enduml

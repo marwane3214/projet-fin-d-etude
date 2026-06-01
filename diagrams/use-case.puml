@@ -1,0 +1,77 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+
+skinparam usecase {
+  BackgroundColor #AED6F1
+  BorderColor #2E86C1
+  FontSize 12
+}
+skinparam actor {
+  BackgroundColor white
+  BorderColor black
+  FontSize 12
+}
+skinparam rectangle {
+  BorderColor black
+  FontStyle bold
+  FontSize 13
+}
+skinparam arrow {
+  Color black
+}
+
+actor "Visiteur / Invité"          as visiteur
+actor "Affilié (Salarié)"          as affilie
+actor "Agent IA"          <<System>> as agentIA
+actor "Gestionnaire CIMR (Admin)"  as admin
+
+rectangle "Portail CIMR - Options Utilisateurs" {
+
+  usecase "S'inscrire"                           as UC_INSCRIRE
+  usecase "Chatbot IA\n(Répondre aux questions)" as UC_CHATBOT
+  usecase "S'authentifier"                       as UC_AUTH
+  usecase "Réinitialisation MDP\n(Agent IA & Scan CIN)" as UC_RESET
+
+  rectangle "Options Affilié (Salarié)" {
+    usecase "Gérer Profil & Documents"    as UC_PROFIL
+    usecase "Demander la Liquidation"     as UC_LIQUID
+    usecase "Consulter Livret de Points"  as UC_POINTS
+    usecase "Acheter des points"          as UC_ACHAT
+  }
+
+  rectangle "Options Administration" {
+    usecase "Vérification des erreurs\n& infos incorrectes (IA)" as UC_VERIF
+    usecase "Piloter les Paiements"   as UC_PAI
+    usecase "Consulter les Audits"    as UC_AUDIT
+    usecase "Valider les Dossiers"    as UC_VALID
+  }
+}
+
+' ── Relations acteurs → cas d'utilisation ──
+visiteur  --> UC_INSCRIRE
+visiteur  --> UC_CHATBOT
+affilie   --> UC_CHATBOT
+affilie   --> UC_PROFIL
+affilie   --> UC_LIQUID
+affilie   --> UC_POINTS
+affilie   --> UC_ACHAT
+agentIA   --> UC_RESET
+admin     --> UC_VERIF
+admin     --> UC_PAI
+admin     --> UC_AUDIT
+admin     --> UC_VALID
+
+' ── «include» vers S'authentifier ──
+UC_PROFIL  ..> UC_AUTH : «include»
+UC_LIQUID  ..> UC_AUTH : «include»
+UC_POINTS  ..> UC_AUTH : «include»
+UC_ACHAT   ..> UC_AUTH : «include»
+UC_VERIF   ..> UC_AUTH : «include»
+UC_PAI     ..> UC_AUTH : «include»
+UC_AUDIT   ..> UC_AUTH : «include»
+UC_VALID   ..> UC_AUTH : «include»
+
+@enduml

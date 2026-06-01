@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1422" dy="762" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SEQUENCE DIAGRAM — Authentification JWT
+    ══════════════════════════════════════════════════════════ -->
+
+    <!-- ── PARTICIPANT HEADERS ── -->
+    <mxCell id="10" value="Affilié" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3DAA2E;strokeColor=#2D8A22;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="60" y="40" width="120" height="44" as="geometry"/>
+    </mxCell>
+    <mxCell id="11" value="Frontend&#xa;React" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F2A1E;strokeColor=#3DAA2E;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="280" y="40" width="120" height="44" as="geometry"/>
+    </mxCell>
+    <mxCell id="12" value="API Gateway&#xa;:8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F2A1E;strokeColor=#3DAA2E;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="500" y="40" width="120" height="44" as="geometry"/>
+    </mxCell>
+    <mxCell id="13" value="Auth Service&#xa;:8079" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F2A1E;strokeColor=#3DAA2E;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="720" y="40" width="120" height="44" as="geometry"/>
+    </mxCell>
+    <mxCell id="14" value="PostgreSQL&#xa;cimr_auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F2A1E;strokeColor=#3DAA2E;fontColor=#FFFFFF;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="940" y="40" width="120" height="44" as="geometry"/>
+    </mxCell>
+
+    <!-- ── LIFELINES (dashed vertical lines) ── -->
+    <mxCell id="20" style="endArrow=none;dashed=1;html=1;strokeColor=#3DAA2E;strokeWidth=2;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><Array as="points"/></mxGeometry>
+    </mxCell>
+    <mxCell id="L1" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#AAAAAA;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="120" y="84" as="sourcePoint"/><mxPoint x="120" y="760" as="targetPoint"/></mxGeometry>
+    </mxCell>
+    <mxCell id="L2" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#AAAAAA;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="340" y="84" as="sourcePoint"/><mxPoint x="340" y="760" as="targetPoint"/></mxGeometry>
+    </mxCell>
+    <mxCell id="L3" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#AAAAAA;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="560" y="84" as="sourcePoint"/><mxPoint x="560" y="760" as="targetPoint"/></mxGeometry>
+    </mxCell>
+    <mxCell id="L4" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#AAAAAA;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="780" y="84" as="sourcePoint"/><mxPoint x="780" y="760" as="targetPoint"/></mxGeometry>
+    </mxCell>
+    <mxCell id="L5" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#AAAAAA;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="1000" y="84" as="sourcePoint"/><mxPoint x="1000" y="760" as="targetPoint"/></mxGeometry>
+    </mxCell>
+
+    <!-- ── MESSAGES ── -->
+
+    <!-- [1] Affilié → Frontend : Saisit username / password -->
+    <mxCell id="M1" value="[1] Saisit username / password" style="endArrow=block;endFill=1;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="120" y="130" as="sourcePoint"/><mxPoint x="340" y="130" as="targetPoint"/></mxGeometry>
+    </mxCell>
+
+    <!-- [2] Frontend → API Gateway : POST /api/auth/login -->
+    <mxCell id="M2" value="[2] POST /api/auth/login  {username, password}" style="endArrow=block;endFill=1;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="340" y="190" as="sourcePoint"/><mxPoint x="560" y="190" as="targetPoint"/></mxGeometry>
+    </mxCell>
+
+    <!-- [3] API Gateway → Auth Service : Route la requête -->
+    <mxCell id="M3" value="[3] Route vers auth-service" style="endArrow=block;endFill=1;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="560" y="250" as="sourcePoint"/><mxPoint x="780" y="250" as="targetPoint"/></mxGeometry>
+    </mxCell>
+
+    <!-- [4] Auth Service → PostgreSQL : SELECT user -->
+    <mxCell id="M4" value="[4] SELECT * FROM users WHERE username = ?" style="endArrow=block;endFill=1;html=1;strokeColor=#1F2A1E;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="780" y="310" as="sourcePoint"/><mxPoint x="1000" y="310" as="targetPoint"/></mxGeometry>
+    </mxCell>
+
+    <!-- [5] PostgreSQL → Auth Service : User trouvé -->
+    <mxCell id="M5" value="[5] User {id, username, password_hash, role}" style="endArrow=block;endFill=1;html=1;strokeColor=#1F2A1E;strokeWidth=2;fontSize=11;fontStyle=1;dashed=1;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="1000" y="360" as="sourcePoint"/><mxPoint x="780" y="360" as="targetPoint"/></mxGeometry>
+    </mxCell>
+
+    <!-- [6] Auth Service : Validation bcrypt (annotation) -->
+    <mxCell id="N6" value="[6] Validation bcrypt(password, hash)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E8;strokeColor=#F5A422;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="620" y="400" width="320" height="36" as="geometry"/>
+    </mxCell>
+
+    <!-- [7] Auth Service → API Gateway : JWT Token -->
+    <mxCell id="M7" value="[7] JWT Token signé (HS256)" style="endArrow=block;endFill=1;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;fontStyle=1;dashed=1;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="780" y="470" as="sourcePoint"/><mxPoint x="560" y="470" as="targetPoint"/></mxGeometry>
+    </mxCell>
+
+    <!-- [8] API Gateway → Frontend : 200 OK -->
+    <mxCell id="M8" value="[8] 200 OK  { token, role, expiresIn }" style="endArrow=block;endFill=1;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;fontStyle=1;dashed=1;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="560" y="530" as="sourcePoint"/><mxPoint x="340" y="530" as="targetPoint"/></mxGeometry>
+    </mxCell>
+
+    <!-- [9] Frontend : Stockage token localStorage (annotation) -->
+    <mxCell id="N9" value="[9] Stockage token dans localStorage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8E8;strokeColor=#F5A422;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="240" y="570" width="280" height="36" as="geometry"/>
+    </mxCell>
+
+    <!-- [10] Frontend → Affilié : Redirection /dashboard -->
+    <mxCell id="M10" value="[10] Redirection vers /dashboard" style="endArrow=block;endFill=1;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;fontStyle=1;dashed=1;" edge="1" parent="1">
+      <mxGeometry relative="1" as="geometry"><mxPoint x="340" y="630" as="sourcePoint"/><mxPoint x="120" y="630" as="targetPoint"/></mxGeometry>
+    </mxCell>
+
+    <!-- ── ALT: Échec authentification ── -->
+    <mxCell id="ALT" value="[ALT] Mot de passe incorrect → 401 Unauthorized" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6E6;strokeColor=#CC0000;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="200" y="690" width="700" height="36" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

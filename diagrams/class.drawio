@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1422" dy="762" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- ═══════════════════════════════════════════
+         CLASS: User
+    ═══════════════════════════════════════════ -->
+    <mxCell id="10" value="User" style="swimlane;fontStyle=1;align=center;startSize=28;fillColor=#1F2A1E;strokeColor=#3DAA2E;fontColor=#FFFFFF;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="560" y="40" width="220" height="148" as="geometry"/>
+    </mxCell>
+    <mxCell id="11" value="- id : Long" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="10">
+      <mxGeometry y="28" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="12" value="- username : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="10">
+      <mxGeometry y="52" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="13" value="- password : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="10">
+      <mxGeometry y="76" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="14" value="- role : Role" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="10">
+      <mxGeometry y="100" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="15" value="- enabled : boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="10">
+      <mxGeometry y="124" width="220" height="24" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════
+         CLASS: Affilie
+    ═══════════════════════════════════════════ -->
+    <mxCell id="20" value="Affilie" style="swimlane;fontStyle=1;align=center;startSize=28;fillColor=#3DAA2E;strokeColor=#2D8A22;fontColor=#FFFFFF;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="540" y="280" width="260" height="220" as="geometry"/>
+    </mxCell>
+    <mxCell id="21" value="- id : Long" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="20">
+      <mxGeometry y="28" width="260" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="22" value="- nom : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="20">
+      <mxGeometry y="52" width="260" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="23" value="- prenom : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="20">
+      <mxGeometry y="76" width="260" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="24" value="- cin : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="20">
+      <mxGeometry y="100" width="260" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="25" value="- dateNaissance : Date" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="20">
+      <mxGeometry y="124" width="260" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="26" value="- email : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="20">
+      <mxGeometry y="148" width="260" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="27" value="- telephone : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="20">
+      <mxGeometry y="172" width="260" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="28" value="- statut : Statut" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="20">
+      <mxGeometry y="196" width="260" height="24" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════
+         CLASS: Cotisation
+    ═══════════════════════════════════════════ -->
+    <mxCell id="30" value="Cotisation" style="swimlane;fontStyle=1;align=center;startSize=28;fillColor=#EAF5E8;strokeColor=#3DAA2E;fontColor=#1F2A1E;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="60" y="600" width="220" height="172" as="geometry"/>
+    </mxCell>
+    <mxCell id="31" value="- id : Long" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="30">
+      <mxGeometry y="28" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="32" value="- annee : int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="30">
+      <mxGeometry y="52" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="33" value="- mois : int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="30">
+      <mxGeometry y="76" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="34" value="- montant : Double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="30">
+      <mxGeometry y="100" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="35" value="- points : Double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="30">
+      <mxGeometry y="124" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="36" value="- statut : Statut" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="30">
+      <mxGeometry y="148" width="220" height="24" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════
+         CLASS: Liquidation
+    ═══════════════════════════════════════════ -->
+    <mxCell id="40" value="Liquidation" style="swimlane;fontStyle=1;align=center;startSize=28;fillColor=#EAF5E8;strokeColor=#3DAA2E;fontColor=#1F2A1E;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="360" y="600" width="220" height="172" as="geometry"/>
+    </mxCell>
+    <mxCell id="41" value="- id : Long" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="40">
+      <mxGeometry y="28" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="42" value="- type : TypeLiquidation" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="40">
+      <mxGeometry y="52" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="43" value="- statut : Statut" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="40">
+      <mxGeometry y="76" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="44" value="- dateDemande : Date" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="40">
+      <mxGeometry y="100" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="45" value="- montantCalcule : Double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="40">
+      <mxGeometry y="124" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="46" value="- dateValidation : Date" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="40">
+      <mxGeometry y="148" width="220" height="24" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════
+         CLASS: Paiement
+    ═══════════════════════════════════════════ -->
+    <mxCell id="50" value="Paiement" style="swimlane;fontStyle=1;align=center;startSize=28;fillColor=#EAF5E8;strokeColor=#3DAA2E;fontColor=#1F2A1E;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="660" y="600" width="220" height="172" as="geometry"/>
+    </mxCell>
+    <mxCell id="51" value="- id : Long" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="50">
+      <mxGeometry y="28" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="52" value="- montant : Double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="50">
+      <mxGeometry y="52" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="53" value="- datePaiement : Date" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="50">
+      <mxGeometry y="76" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="54" value="- statut : Statut" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="50">
+      <mxGeometry y="100" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="55" value="- reference : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="50">
+      <mxGeometry y="124" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="56" value="- modePaiement : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="50">
+      <mxGeometry y="148" width="220" height="24" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════
+         CLASS: Reversion
+    ═══════════════════════════════════════════ -->
+    <mxCell id="60" value="Reversion" style="swimlane;fontStyle=1;align=center;startSize=28;fillColor=#EAF5E8;strokeColor=#3DAA2E;fontColor=#1F2A1E;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="960" y="600" width="220" height="172" as="geometry"/>
+    </mxCell>
+    <mxCell id="61" value="- id : Long" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="60">
+      <mxGeometry y="28" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="62" value="- nomBeneficiaire : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="60">
+      <mxGeometry y="52" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="63" value="- lienFamilial : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="60">
+      <mxGeometry y="76" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="64" value="- montant : Double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="60">
+      <mxGeometry y="100" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="65" value="- statut : Statut" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="60">
+      <mxGeometry y="124" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="66" value="- dateDebut : Date" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="60">
+      <mxGeometry y="148" width="220" height="24" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════
+         CLASS: Notification
+    ═══════════════════════════════════════════ -->
+    <mxCell id="70" value="Notification" style="swimlane;fontStyle=1;align=center;startSize=28;fillColor=#FFF8E8;strokeColor=#F5A422;fontColor=#1F2A1E;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="60" y="280" width="220" height="172" as="geometry"/>
+    </mxCell>
+    <mxCell id="71" value="- id : Long" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="70">
+      <mxGeometry y="28" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="72" value="- titre : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="70">
+      <mxGeometry y="52" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="73" value="- message : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="70">
+      <mxGeometry y="76" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="74" value="- type : TypeNotif" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="70">
+      <mxGeometry y="100" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="75" value="- lu : boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="70">
+      <mxGeometry y="124" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="76" value="- dateCreation : LocalDateTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="70">
+      <mxGeometry y="148" width="220" height="24" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════
+         CLASS: AuditLog
+    ═══════════════════════════════════════════ -->
+    <mxCell id="80" value="AuditLog" style="swimlane;fontStyle=1;align=center;startSize=28;fillColor=#FFF8E8;strokeColor=#F5A422;fontColor=#1F2A1E;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="280" width="220" height="172" as="geometry"/>
+    </mxCell>
+    <mxCell id="81" value="- id : Long" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="80">
+      <mxGeometry y="28" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="82" value="- action : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="80">
+      <mxGeometry y="52" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="83" value="- utilisateur : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="80">
+      <mxGeometry y="76" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="84" value="- entite : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="80">
+      <mxGeometry y="100" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="85" value="- timestamp : LocalDateTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="80">
+      <mxGeometry y="124" width="220" height="24" as="geometry"/>
+    </mxCell>
+    <mxCell id="86" value="- details : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;fontSize=11;fontFamily=Courier New;" vertex="1" parent="80">
+      <mxGeometry y="148" width="220" height="24" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════
+         ASSOCIATIONS
+    ═══════════════════════════════════════════ -->
+
+    <!-- User 1 ──────────── 1 Affilie -->
+    <mxCell id="90" value="1          1" style="endArrow=none;startArrow=none;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;" edge="1" source="10" target="20" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- Affilie 1 ──────── 0..* Cotisation -->
+    <mxCell id="91" value="0..*" style="endArrow=open;endFill=0;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="20" target="30" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- Affilie 1 ──────── 0..* Liquidation -->
+    <mxCell id="92" value="0..*" style="endArrow=open;endFill=0;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="20" target="40" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- Affilie 1 ──────── 0..* Paiement -->
+    <mxCell id="93" value="0..*" style="endArrow=open;endFill=0;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="20" target="50" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- Affilie 1 ──────── 0..* Reversion -->
+    <mxCell id="94" value="0..*" style="endArrow=open;endFill=0;html=1;strokeColor=#3DAA2E;strokeWidth=2;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="20" target="60" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- User 1 ─────────── 0..* Notification -->
+    <mxCell id="95" value="0..*" style="endArrow=open;endFill=0;html=1;strokeColor=#F5A422;strokeWidth=2;fontSize=11;" edge="1" source="10" target="70" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- User 1 ─────────── 0..* AuditLog -->
+    <mxCell id="96" value="0..*" style="endArrow=open;endFill=0;html=1;strokeColor=#F5A422;strokeWidth=2;fontSize=11;" edge="1" source="10" target="80" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>
