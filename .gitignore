@@ -30,6 +30,16 @@ tsconfig.tsbuildinfo
 *.sln
 *.sw?
 
+# Python (AI agent service / tools)
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Office temp lock files (Word/Excel)
+~$*
+
 # OS Files
 .DS_Store
 Thumbs.db

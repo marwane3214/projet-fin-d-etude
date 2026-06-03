@@ -1,0 +1,71 @@
+@startuml
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam sequenceArrowThickness 2
+skinparam sequenceParticipant underline
+
+skinparam participant {
+  BackgroundColor #1F2A1E
+  BorderColor #3DAA2E
+  FontColor white
+  FontSize 12
+}
+skinparam actor {
+  BackgroundColor #3DAA2E
+  BorderColor #2D8A22
+  FontColor white
+  FontSize 12
+}
+skinparam sequence {
+  ArrowColor #3DAA2E
+  LifeLineBorderColor #3DAA2E
+  LifeLineBackgroundColor #EAF5E8
+  BoxBackgroundColor #F5F5F5
+  BoxBorderColor #AAAAAA
+  NoteBackgroundColor #FFF8E8
+  NoteBorderColor #F5A422
+}
+
+title Diagramme de Séquence — Authentification JWT
+
+actor       "Affilié"          as user
+participant "Frontend\nReact"  as front
+participant "API Gateway\n:8080" as gw
+participant "Auth Service\n:8079" as auth
+database    "PostgreSQL\ncimr_auth" as db
+
+== Connexion ==
+
+user  -> front : Saisit username / password
+front -> gw    : POST /api/auth/login\n{ username, password }
+gw    -> auth  : Route la requête
+
+auth  -> db    : SELECT * FROM users\nWHERE username = ?
+db    --> auth : User { id, username,\npassword_hash, role }
+
+note over auth
+  Validation bcrypt
+  bcrypt.matches(password, hash)
+end note
+
+== Succès ==
+
+auth  --> gw    : JWT Token signé (HS256)
+gw    --> front : 200 OK\n{ token, role, expiresIn }
+
+note over front
+  Stockage token
+  dans localStorage
+end note
+
+front --> user  : Redirection vers /dashboard
+
+== Échec ==
+
+alt Mot de passe incorrect
+  auth  --> gw    : 401 Unauthorized
+  gw    --> front : 401 { message: "Identifiants invalides" }
+  front --> user  : Affiche message d'erreur
+end
+
+@enduml

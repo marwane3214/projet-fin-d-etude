@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramme de Gantt - Projet CIMR</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1f3864 0%, #2e5090 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .color-plan { background-color: #ff6b6b; }
+        .color-backend { background-color: #4ecdc4; }
+        .color-frontend { background-color: #45b7d1; }
+        .color-integration { background-color: #ffa502; }
+        .color-deploy { background-color: #95e1d3; }
+        .color-doc { background-color: #a8dadc; }
+        .color-milestone { background-color: #f1faee; border: 2px solid #1f3864; }
+
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #1f3864;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .info-box h3 {
+            color: #1f3864;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #333;
+        }
+
+        .info-box li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Diagramme de Gantt</h1>
+            <p>Projet de Fin d'Études - Portail CIMR</p>
+        </div>
+
+        <div class="content">
+            <div class="mermaid">
+gantt
+    title Planification - Projet CIMR (PFE)
+    dateFormat YYYY-MM-DD
+
+    section Planification
+    Analyse des besoins :s1, 2026-01-15, 15d
+    Conception architecture :s2, after s1, 20d
+    Réunion kickoff :crit, m1, 2026-01-20, 0d
+
+    section Backend (9 Services)
+    Auth Service :s3, 2026-02-01, 20d
+    Admin Service :s4, 2026-02-01, 25d
+    Affiliation Service :s5, after s3, 25d
+    Contribution Service :s6, after s4, 30d
+    Liquidation Service :s7, after s5, 35d
+    Payment Service :s8, after s6, 25d
+    Reversion Service :s9, after s7, 20d
+    Saga Orchestrator :s10, after s8, 15d
+    API Gateway :s11, after s9, 10d
+
+    section Frontend (React)
+    Setup Vite + TypeScript :s12, 2026-02-01, 10d
+    Composants réutilisables :s13, after s12, 20d
+    Auth Pages :s14, after s13, 15d
+    Affiliés Pages :s15, after s14, 15d
+    Contributions Pages :s16, after s15, 15d
+    Liquidations Pages :s17, after s16, 20d
+    Paiements Pages :s18, after s17, 15d
+    Notifications Pages :s19, after s18, 10d
+    Dashboard :s20, after s19, 15d
+
+    section Intégration & Tests
+    Intégration Backend-Frontend :s21, after s11, 25d
+    Tests unitaires :s22, after s21, 15d
+    Tests d'intégration :s23, after s22, 15d
+    Tests de performance :s24, after s23, 10d
+    UAT :s25, after s24, 20d
+
+    section Déploiement
+    Préparation déploiement :s26, after s25, 10d
+    Déploiement production :crit, s27, after s26, 5d
+    Monitoring & Support :s28, after s27, 30d
+
+    section Documentation
+    Documentation technique :s29, 2026-02-01, 60d
+    Documentation utilisateur :s30, after s29, 20d
+    Rapport PFE :s31, after s30, 30d
+    Soutenance :crit, m2, after s31, 0d
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color color-plan"></div>
+                    <span>Planification</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-backend"></div>
+                    <span>Backend Services</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-frontend"></div>
+                    <span>Frontend React</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-integration"></div>
+                    <span>Intégration & Tests</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-deploy"></div>
+                    <span>Déploiement</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-doc"></div>
+                    <span>Documentation</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-milestone"></div>
+                    <span>Jalon (Milestone)</span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>📋 Résumé du projet</h3>
+                <ul>
+                    <li><strong>Durée totale:</strong> ~5-6 mois</li>
+                    <li><strong>9 Services Backend:</strong> Auth, Admin, Affiliation, Contribution, Liquidation, Payment, Reversion, Saga Orchestrator, API Gateway</li>
+                    <li><strong>Frontend:</strong> React 19 + TypeScript avec Vite</li>
+                    <li><strong>Phases clés:</strong> Planification → Développement → Intégration → Tests → UAT → Déploiement</li>
+                    <li><strong>Jalons:</strong> Kickoff (20/01), Soutenance PFE</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+        mermaid.contentLoaded();
+    </script>
+</body>
+</html>

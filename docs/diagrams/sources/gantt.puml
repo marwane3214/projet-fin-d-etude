@@ -1,0 +1,49 @@
+@startgantt
+title Diagramme de Gantt - Projet CIMR (PFE)
+dateFormat YYYY-MM-DD
+axisFormat %d/%m
+
+section Planification
+Analyse des besoins :crit, plan1, 2026-01-15, 15d
+Conception architecture :crit, plan2, after plan1, 20d
+Réunions kickoff :milestone, m1, 2026-01-20, 0d
+
+section Backend - Services
+Auth Service :backend1, 2026-02-01, 20d
+Admin Service :backend2, 2026-02-01, 25d
+Affiliation Service :backend3, after backend1, 25d
+Contribution Service :backend4, after backend2, 30d
+Liquidation Service :backend5, after backend3, 35d
+Payment Service :backend6, after backend4, 25d
+Reversion Service :backend7, after backend5, 20d
+Saga Orchestrator :backend8, after backend6, 15d
+API Gateway :backend9, after backend7, 10d
+
+section Frontend
+Setup React + Vite :frontend1, 2026-02-01, 10d
+Composants réutilisables :frontend2, after frontend1, 20d
+Pages authentification :frontend3, after frontend2, 15d
+Pages affiliés :frontend4, after frontend3, 15d
+Pages contributions :frontend5, after frontend4, 15d
+Pages liquidations :frontend6, after frontend5, 20d
+Pages paiements :frontend7, after frontend6, 15d
+Pages notifications :frontend8, after frontend7, 10d
+Dashboard :frontend9, after frontend8, 15d
+
+section Intégration & Tests
+Intégration Backend-Frontend :integration1, after backend9, 25d
+Tests unitaires :test1, after integration1, 15d
+Tests d'intégration :test2, after test1, 15d
+Tests de performance :test3, after test2, 10d
+UAT (User Acceptance Testing) :uat1, after test3, 20d
+
+section Déploiement
+Préparation déploiement :deploy1, after uat1, 10d
+Déploiement production :crit, deploy2, after deploy1, 5d
+Monitoring & Support :deploy3, after deploy2, 30d
+
+section Documentation
+Documentation technique :doc1, 2026-02-01, 60d
+Documentation utilisateur :doc2, after doc1, 20d
+Rapport PFE :doc3, after doc2, 30d
+Soutenance :milestone, m2, after doc3, 0d

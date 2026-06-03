@@ -135,7 +135,14 @@ public class ContributionController {
     @Operation(summary = "Visualiser un fichier de preuve")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         try {
-            Path file = Paths.get("uploads/proofs/").resolve(filename);
+            Path baseDir = Paths.get("uploads/proofs/").toAbsolutePath().normalize();
+            Path file = baseDir.resolve(filename).normalize();
+
+            // Protection contre le path traversal : le fichier résolu doit rester dans baseDir
+            if (!file.startsWith(baseDir)) {
+                return ResponseEntity.badRequest().build();
+            }
+
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() || resource.isReadable()) {
