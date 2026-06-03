@@ -107,13 +107,13 @@
 
 \begin{minipage}{0.4\textwidth}
     \begin{flushleft}
-        \includegraphics[height=2cm]{logo_emsi.png}
+        \includegraphics[height=2cm]{../assets/logo_emsi.png}
     \end{flushleft}
 \end{minipage}
 \hfill
 \begin{minipage}{0.4\textwidth}
     \begin{flushright}
-        \includegraphics[height=2cm]{logo-cimr.png}
+        \includegraphics[height=2cm]{../assets/logo-cimr.png}
     \end{flushright}
 \end{minipage}
 
@@ -567,7 +567,7 @@ Les principales entités métier et leurs relations :
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{diagrams_uml/diagrams_uml/diagramme_classe.png}
+\includegraphics[width=0.95\textwidth]{../diagrams/uml/diagramme_classe.png}
 \caption{Diagramme de classes du domaine}
 \label{fig:diagramme_classe}
 \end{figure}
@@ -590,7 +590,7 @@ Les principales entités métier et leurs relations :
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{diagrams_uml/diagrams_uml/sequence_liquidation_saga.png}
+\includegraphics[width=0.95\textwidth]{../diagrams/uml/sequence_liquidation_saga.png}
 \caption{Diagramme de séquence --- Liquidation de pension (Saga Orchestration)}
 \label{fig:sequence_liquidation_saga}
 \end{figure}
@@ -600,7 +600,7 @@ Ce diagramme détaille le flux d'achat de points par l'affilié, impliquant la v
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{diagrams_uml/diagrams_uml/sequence_achat_point.png}
+\includegraphics[width=0.95\textwidth]{../diagrams/uml/sequence_achat_point.png}
 \caption{Diagramme de séquence --- Achat de points complémentaires}
 \label{fig:sequence_achat_point}
 \end{figure}
@@ -610,7 +610,7 @@ Ce diagramme illustre le processus de déclaration de décès d'un affilié et d
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{diagrams_uml/diagrams_uml/sequence_reversion_pension.png}
+\includegraphics[width=0.95\textwidth]{../diagrams/uml/sequence_reversion_pension.png}
 \caption{Diagramme de séquence --- Pension de réversion}
 \label{fig:sequence_reversion}
 \end{figure}
@@ -620,7 +620,7 @@ Ce diagramme montre l'interaction entre l'affilié, la plateforme, et le microse
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{diagrams_uml/diagrams_uml/sequence_ai.png}
+\includegraphics[width=0.95\textwidth]{../diagrams/uml/sequence_ai.png}
 \caption{Diagramme de séquence --- Microservice IA (EasyOCR et Chatbot)}
 \label{fig:sequence_ai}
 \end{figure}
@@ -630,7 +630,7 @@ Ce diagramme représente la gestion asynchrone des événements sensibles (conne
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.95\textwidth]{diagrams_uml/diagrams_uml/sequence_notification_logs.png}
+\includegraphics[width=0.95\textwidth]{../diagrams/uml/sequence_notification_logs.png}
 \caption{Diagramme de séquence --- Notifications et Logs d'Audit via Kafka}
 \label{fig:sequence_notification_logs}
 \end{figure}
@@ -716,11 +716,11 @@ Les choix technologiques pour la couche backend visent à assurer la modularité
 \renewcommand{\arraystretch}{1.5}
 \begin{tabularx}{\textwidth}{c X}
 \rowcolor{cimrblue} \textcolor{white}{\textbf{Logo}} & \textcolor{white}{\textbf{Technologie, Version \& Rôle dans le Projet}} \\
-\rowcolor{cimrblue!5} \includegraphics[height=1.2cm]{logoss/logos/java.png} & \textbf{Java 17 LTS} : Version LTS à long terme assurant robustesse, typage statique fort et fonctionnalités modernes (records, pattern matching). \\
-\rowcolor{white} \includegraphics[height=1.2cm]{logoss/logos/spring_boot.png} & \textbf{Spring Boot 3.2.3 \& Spring Cloud} : Socle applicatif d'entreprise gérant l'auto-configuration, Spring Data JPA, Spring Security (JWT) et la Gateway d'accès. \\
-\rowcolor{cimrblue!5} \includegraphics[height=1.2cm]{logoss/logos/postgresql.png} & \textbf{PostgreSQL 15 \& Flyway} : SGBDR robuste garantissant la conformité ACID. Une base par service, versionnée automatiquement avec Flyway. \\
-\rowcolor{white} \includegraphics[height=1.2cm]{logoss/logos/kafka.png} & \textbf{Apache Kafka 7.5.3} : Bus d'événements distribué pour la communication asynchrone (notifications, journalisation d'audit et transactions Saga). \\
-\rowcolor{cimrblue!5} \includegraphics[height=1.2cm]{logoss/logos/python.png} & \textbf{Python 3.12, EasyOCR \& Transformers} : Moteur du service IA pour l'extraction de données de documents (EasyOCR) et l'assistance chatbot. \\
+\rowcolor{cimrblue!5} \includegraphics[height=1.2cm]{../assets/tech-logos/java.png} & \textbf{Java 17 LTS} : Version LTS à long terme assurant robustesse, typage statique fort et fonctionnalités modernes (records, pattern matching). \\
+\rowcolor{white} \includegraphics[height=1.2cm]{../assets/tech-logos/spring_boot.png} & \textbf{Spring Boot 3.2.3 \& Spring Cloud} : Socle applicatif d'entreprise gérant l'auto-configuration, Spring Data JPA, Spring Security (JWT) et la Gateway d'accès. \\
+\rowcolor{cimrblue!5} \includegraphics[height=1.2cm]{../assets/tech-logos/postgresql.png} & \textbf{PostgreSQL 15 \& Flyway} : SGBDR robuste garantissant la conformité ACID. Une base par service, versionnée automatiquement avec Flyway. \\
+\rowcolor{white} \includegraphics[height=1.2cm]{../assets/tech-logos/kafka.png} & \textbf{Apache Kafka 7.5.3} : Bus d'événements distribué pour la communication asynchrone (notifications, journalisation d'audit et transactions Saga). \\
+\rowcolor{cimrblue!5} \includegraphics[height=1.2cm]{../assets/tech-logos/python.png} & \textbf{Python 3.12, EasyOCR \& Transformers} : Moteur du service IA pour l'extraction de données de documents (EasyOCR) et l'assistance chatbot. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -734,12 +734,12 @@ L'interface utilisateur repose sur un écosystème moderne garantissant une Sing
 \renewcommand{\arraystretch}{1.5}
 \begin{tabularx}{\textwidth}{c X}
 \rowcolor{cimrblue} \textcolor{white}{\textbf{Logo}} & \textcolor{white}{\textbf{Technologie, Version \& Rôle dans le Projet}} \\
-\rowcolor{cimrblue!5} \includegraphics[height=1.0cm]{logoss/logos/react.png} & \textbf{React 19.2.4} : Bibliothèque déclarative basée composants réutilisables assurant un rendu rapide et une structure modulaire. \\
-\rowcolor{white} \includegraphics[height=1.0cm]{logoss/logos/typescript.png} & \textbf{TypeScript 5.9} : Version typée de JavaScript prévenant les erreurs de développement et facilitant la maintenance du code. \\
-\rowcolor{cimrblue!5} \includegraphics[height=1.0cm]{logoss/logos/vite.png} & \textbf{Vite 8.0.0 \& React Router} : Outil de compilation ultra-rapide et routeur déclaratif pour une navigation fluide sans rechargement. \\
-\rowcolor{white} \includegraphics[height=1.0cm]{logoss/logos/tailwind.png} & \textbf{Tailwind CSS} : Framework CSS utility-first pour un design réactif (responsive), esthétique et uniforme. \\
-\rowcolor{cimrblue!5} \includegraphics[height=1.0cm]{logoss/logos/tanstack.png} & \textbf{TanStack Query \& Axios} : Gestion avancée du cache de données côté client et communication HTTP sécurisée (intercepteurs de tokens). \\
-\rowcolor{white} \includegraphics[height=1.0cm]{logoss/logos/zod.png} & \textbf{Zod \& React Hook Form} : Validation stricte des formulaires par schémas et gestion optimisée de la saisie utilisateur. \\
+\rowcolor{cimrblue!5} \includegraphics[height=1.0cm]{../assets/tech-logos/react.png} & \textbf{React 19.2.4} : Bibliothèque déclarative basée composants réutilisables assurant un rendu rapide et une structure modulaire. \\
+\rowcolor{white} \includegraphics[height=1.0cm]{../assets/tech-logos/typescript.png} & \textbf{TypeScript 5.9} : Version typée de JavaScript prévenant les erreurs de développement et facilitant la maintenance du code. \\
+\rowcolor{cimrblue!5} \includegraphics[height=1.0cm]{../assets/tech-logos/vite.png} & \textbf{Vite 8.0.0 \& React Router} : Outil de compilation ultra-rapide et routeur déclaratif pour une navigation fluide sans rechargement. \\
+\rowcolor{white} \includegraphics[height=1.0cm]{../assets/tech-logos/tailwind.png} & \textbf{Tailwind CSS} : Framework CSS utility-first pour un design réactif (responsive), esthétique et uniforme. \\
+\rowcolor{cimrblue!5} \includegraphics[height=1.0cm]{../assets/tech-logos/tanstack.png} & \textbf{TanStack Query \& Axios} : Gestion avancée du cache de données côté client et communication HTTP sécurisée (intercepteurs de tokens). \\
+\rowcolor{white} \includegraphics[height=1.0cm]{../assets/tech-logos/zod.png} & \textbf{Zod \& React Hook Form} : Validation stricte des formulaires par schémas et gestion optimisée de la saisie utilisateur. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -753,8 +753,8 @@ Le déploiement, la portabilité et le travail collaboratif sont orchestrés par
 \renewcommand{\arraystretch}{1.5}
 \begin{tabularx}{\textwidth}{c X}
 \rowcolor{cimrblue} \textcolor{white}{\textbf{Outil \& Rôle dans le Projet}} \\
-\rowcolor{cimrblue!5} \includegraphics[height=1.0cm]{logoss/logos/docker.png} & \textbf{Docker \& Docker Compose} : Conteneurisation multi-stage (JRE minimale) de chaque service et orchestration globale en local (12 conteneurs). \\
-\rowcolor{white} \includegraphics[height=1.0cm]{logoss/logos/github.png} & \textbf{Git \& GitHub} : Outil de suivi de versions et plateforme de stockage collaboratif pour le code source. \\
+\rowcolor{cimrblue!5} \includegraphics[height=1.0cm]{../assets/tech-logos/docker.png} & \textbf{Docker \& Docker Compose} : Conteneurisation multi-stage (JRE minimale) de chaque service et orchestration globale en local (12 conteneurs). \\
+\rowcolor{white} \includegraphics[height=1.0cm]{../assets/tech-logos/github.png} & \textbf{Git \& GitHub} : Outil de suivi de versions et plateforme de stockage collaboratif pour le code source. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -955,7 +955,7 @@ La page de connexion constitue le point d'entrée unique de la plateforme. Elle 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/login.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/login.png}
 \caption{Page de connexion}
 \label{fig:login}
 \end{figure}
@@ -965,7 +965,7 @@ Workflow en deux étapes : (1) saisie de l'e-mail $\to$ envoi d'un token, (2) sa
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/forgot_password.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/forgot_password.png}
 \caption{Réinitialisation du mot de passe}
 \end{figure}
 
@@ -992,7 +992,7 @@ Le tableau de bord est la première page consultée après connexion. Il agrège
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/dashboard.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/dashboard.png}
 \caption{Tableau de bord affilié}
 \label{fig:dashboard}
 \end{figure}
@@ -1007,7 +1007,7 @@ Saisie du salaire mensuel actuel et de l'âge de départ souhaité (entre 55 et 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/simulation_step1.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/simulation_step1.png}
 \caption{Simulation -- Étape 1 : Paramètres personnels}
 \end{figure}
 
@@ -1016,7 +1016,7 @@ L'affilié peut choisir d'acheter des points supplémentaires pour augmenter sa 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/simulation_step2.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/simulation_step2.png}
 \caption{Simulation -- Étape 2 : Rachat de points}
 \end{figure}
 
@@ -1043,7 +1043,7 @@ setStep(3);
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/simulation_result.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/simulation_result.png}
 \caption{Simulation -- Étape 3 : Résultat}
 \label{fig:simulation}
 \end{figure}
@@ -1055,7 +1055,7 @@ Présentation paginée et triable de l'historique des cotisations mensuelles. Fi
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/cotisations.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/cotisations.png}
 \caption{Page de la liste des cotisations}
 \end{figure}
 
@@ -1064,7 +1064,7 @@ Interface permettant à l'affilié d'acheter des points supplémentaires. Calcul
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/achat_points.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/achat_points.png}
 \caption{Page d'achat de points complémentaires}
 \end{figure}
 
@@ -1075,7 +1075,7 @@ Vue principale du module liquidation : tableau listant toutes les demandes avec 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/liste_liquidations.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/liste_liquidations.png}
 \caption{Liste des demandes de liquidation}
 \end{figure}
 
@@ -1084,7 +1084,7 @@ Formulaire structuré demandant : date d'effet souhaitée, type de liquidation (
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/liquidation.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/liquidation.png}
 \caption{Formulaire de nouvelle demande de liquidation}
 \label{fig:liquidation}
 \end{figure}
@@ -1094,7 +1094,7 @@ Vue dédiée à l'agent CIMR permettant de changer le statut d'une demande. Le p
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/changement_statut.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/changement_statut.png}
 \caption{Modal de changement de statut (vue agent)}
 \end{figure}
 
@@ -1105,7 +1105,7 @@ Création et suivi des allocations (pension mensuelle, prime de fin d'année, et
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/allocations.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/allocations.png}
 \caption{Liste des allocations}
 \end{figure}
 
@@ -1124,7 +1124,7 @@ Module dédié à la gestion des pensions versées aux ayants droit d'un affili�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/reversions.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/reversions.png}
 \caption{Liste des dossiers de réversion}
 \end{figure}
 
@@ -1134,7 +1134,7 @@ Système de notifications en temps réel basé sur un \textbf{polling} (TanStack
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/notifications.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/notifications.png}
 \caption{Page des notifications}
 \end{figure}
 
@@ -1147,7 +1147,7 @@ Filtres disponibles : utilisateur, date, type d'action, ressource concernée.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/audit.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/audit.png}
 \caption{Journal d'audit (vue administrateur)}
 \label{fig:audit}
 \end{figure}
@@ -1158,7 +1158,7 @@ Pages permettant à l'utilisateur de mettre à jour ses informations personnelle
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{captures/profile.png}
+\includegraphics[width=0.85\textwidth]{../screenshots/profile.png}
 \caption{Page de profil utilisateur}
 \end{figure}
 
