@@ -468,10 +468,12 @@ async def verify_id(file: UploadFile = File(...), username: Optional[str] = Form
                 
                 res = reader.readtext(processed)
                 t_cin, t_dob, t_name, t_text = extract_moroccan_id_info(res)
-                
-                if t_cin: cin = t_cin
-                if t_dob: dob = t_dob
-                if t_name != "Not Found": full_name = t_name
+
+                # Garder la PREMIERE valeur valide trouvee : une passe ulterieure
+                # sur une image tournee/bruitee ne doit pas ecraser un bon resultat.
+                if t_cin and not cin: cin = t_cin
+                if t_dob and not dob: dob = t_dob
+                if t_name != "Not Found" and full_name == "Not Found": full_name = t_name
                 full_text += t_text + " "
                 
                 if cin and dob and full_name != "Not Found": break
